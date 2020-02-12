@@ -42,16 +42,7 @@
 <main role="main" class="container">
     <div class="pb-2 mb-2 border-bottom">
         {% block page_header %}{% endblock page_header %}
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li class="{{ message.tags }}">
-                {{ message|safe }}
-                <a href="#" class="close">x</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        {% bootstrap_messages %}
         <div id="content">
             {% block content %}{% endblock content %}
         </div>
