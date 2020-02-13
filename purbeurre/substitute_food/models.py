@@ -56,7 +56,7 @@ class Category(models.Model):
         ordering = ['categoryName']
 
 
-class Favorite(models.Model):
+class FavoriteProduct(models.Model):
     """Store a favorite
     The favorite is unique
 
@@ -82,7 +82,7 @@ class Favorite(models.Model):
         ordering = ['product']
 
 
-class Profile(models.Model):
+class UserFavoriteProducts(models.Model):
     """Store a profile
     The profile is unique
 
@@ -95,7 +95,7 @@ class Profile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True, )
     favorites = models.ManyToManyField(
-        Favorite, blank=True)
+        FavoriteProduct, blank=True)
 
     def __str__(self):
         return "Profil de {0}".format(self.user.username)
