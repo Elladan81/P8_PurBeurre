@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'purbeurre_website',
     # third party apps
     'bootstrap4',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

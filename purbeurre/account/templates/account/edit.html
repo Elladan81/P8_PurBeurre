@@ -1,7 +1,5 @@
 {% extends "purbeurre_website/base.html" %}
 
-{% load bootstrap4 %}
-
 {% block title %}Edit your account{% endblock %}
 
 {% block content %}
@@ -9,11 +7,9 @@
     <p>You can edit your account using the following form :</p>
 
     <form action="." method="post" enctype="multipart/form-data" class="form">
-        {% bootstrap_form user_form %}
-        {% bootstrap_form profile_form %}
+        {{user_form.as_p}}
+        {{profile_form.as_p}}
         {% csrf_token %}
-        {% buttons %}
-            <input type="submit" value="Save changes">
-        {% endbuttons %}
+        <p><input type="submit" value="Save changes"></p>
     </form>
 {% endblock %}

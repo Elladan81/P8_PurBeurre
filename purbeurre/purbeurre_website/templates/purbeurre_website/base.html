@@ -1,4 +1,4 @@
-{% load bootstrap4 %}
+{% load static %}
 
 <!doctype html>
 
@@ -6,14 +6,28 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
+    <!-- Font Awesome Icons -->
+    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic'
+          rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="../static/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+    <!-- Theme CSS - Includes Bootstrap -->
+    <link href="../static/css/creative.min.css" rel="stylesheet">
 
 </head>
 <body>
-<div id="header">
-    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+<div id="page-top">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top py-3 border">
         <a class="navbar-brand" href="{% url 'purbeurre_website:index' %}">Pur Beurre</a>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
@@ -22,7 +36,7 @@
                     <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
                 {% endif %}
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mr-auto">
                 {% if request.user.is_authenticated %}
                 <li class="nav-item">
                     <span class="navbar-text">Hello, {{ user.username }}.</span>
@@ -42,7 +56,16 @@
 <main role="main" class="container">
     <div class="pb-2 mb-2 border-bottom">
         {% block page_header %}{% endblock page_header %}
-        {% bootstrap_messages %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">x</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <div id="content">
             {% block content %}{% endblock content %}
         </div>
