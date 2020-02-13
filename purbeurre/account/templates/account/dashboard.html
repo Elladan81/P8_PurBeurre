@@ -1,9 +1,25 @@
 {% extends 'purbeurre_website/base.html' %}
+{% load static %}
 
 {% block title %}Dashboard{% endblock %}
 
+{% block body %}
+<body id="page-top">
+{% endblock body %}
 {% block content %}
-<h1>Dashboard</h1>
-<p>Welcome to your dashboard.</p>
-<p>You can <a href="{% url 'edit' %}">edit your profile</a> or <a href="{% url 'password_change' %}">change your password</a>.</p>
+<header class="masthead">
+    <div class="container">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+                <h1 class="text-uppercase text-white font-weight-bold">Dashboard</h1>
+                    <hr class="divider my-4">
+        <div class="col-lg-4 col-9 mx-auto">
+                    <p class="text-white-75 font-weight-light mb-5">Bonjour {{ request.user.first_name }}. Bienvenue dans votre espace personnel !</p>
+                </div>
+                <p class="text-white-75 font-weight-light mb-5">Vous pouvez <a href="{% url 'edit' %}">modifier votre profil</a>.</p>
+                <!-- Todo : add for password modification (function ready): "ou <a href="{% url 'password_change' %}">changer votre mot de passe</a>.</p>" -->
+            </div>
+        </div>
+    </div>
+</header>
 {% endblock %}

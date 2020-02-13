@@ -1,5 +1,3 @@
-{% load static %}
-
 <!doctype html>
 
 <html lang="fr">
@@ -10,8 +8,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    {% load static %}
+
     <!-- Font Awesome Icons -->
-    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'purbeurre_website/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
@@ -19,56 +19,75 @@
           rel='stylesheet' type='text/css'>
 
     <!-- Plugin CSS -->
-    <link href="../static/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <link href="{% static 'purbeurre_website/vendor/magnific-popup/magnific-popup.css' %}" rel="stylesheet">
 
     <!-- Theme CSS - Includes Bootstrap -->
-    <link href="../static/css/creative.min.css" rel="stylesheet">
+    <link href="{% static 'purbeurre_website/css/creative.min.css' %}" rel="stylesheet">
 
 </head>
+{% block body %}
+
 <body>
-<div id="page-top">
-    <nav class="navbar navbar-expand-md navbar-light fixed-top py-3 border">
-        <a class="navbar-brand" href="{% url 'purbeurre_website:index' %}">Pur Beurre</a>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
-                {% endif %}
-            </ul>
-            <ul class="navbar-nav mr-auto">
-                {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                    <span class="navbar-text">Hello, {{ user.username }}.</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Log out</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log in</a>
-                </li>
-                {% endif %}
-            </ul>
+    {% endblock body %}
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        {% block nav %}
+        <div class="container">
+            {% block menuTop %}
+            <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"> <img src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}">
+                Pur Beurre</a>
+            {% endblock menuTop %}
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto row">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item center">
+                        <a href="{% url 'dashboard' %}" class="fas fa-user matIcon col" title="Profil"></a>
+                    </li>
+                    <li class="nav-item center">
+                        <a href="" class="fas fa-carrot matIcon col" title="Mes Substitus"></a>
+                    </li>
+                    <li class="nav-item center" style="margin-bottom:2%;">
+                        <a href="{% url 'logout' %}" class="fas fa-sign-out-alt matIcon col" title="Se déconnecter"></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item center">
+                        <a href="{% url 'login' %}" class="fas fa-sign-in-alt matIcon col" title="Se connecter"></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
+        {% endblock nav %}
     </nav>
-</div>
-<main role="main" class="container">
-    <div class="pb-2 mb-2 border-bottom">
-        {% block page_header %}{% endblock page_header %}
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li class="{{ message.tags }}">
-                {{ message|safe }}
-                <a href="#" class="close">x</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        <div id="content">
-            {% block content %}{% endblock content %}
+
+
+    {% block content %} {% endblock %}
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1.14.6/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tooltip.js@1.3.1/dist/umd/tooltip.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'purbeurre_website/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'purbeurre_website/vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'purbeurre_website/js/creative.min.js' %}"></script>
+    {% block footer %}
+
+    <footer class="page-footer py-2 row mx-auto text-center">
+        <div class="col-3 mx-auto"><a href="">Mentions légales</a>
         </div>
-</main>
+        <div class="col-3 mx-auto"><a href="#contact">Contact</a>
+        </div>
+{% endblock footer %}
+    </footer>
 </body>
 </html>

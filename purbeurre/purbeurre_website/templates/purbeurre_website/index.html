@@ -1,9 +1,212 @@
 {% extends "purbeurre_website/base.html" %}
 
-{% block page_header %}
-    <div class="jumbotron">
-        <h1 class="display-3">Pur Beurre</h1>
-        <p class="lead">Bientôt ici un champ de recherche sur une base de données médiocre !</p>
+{% load static %}
+{% block title %}
+Pur Beurre - Acceuil
+{% endblock title %}
+{% block body %}
+<body id="page-top">
+{% endblock body %}
+{% block content %}
+<header class="masthead text-center text-white d-flex">
+    <div class="container my-auto">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h1 class="text-uppercase">
+                    <strong>Du gras, oui, mais de qualité !</strong>
+                </h1>
+                <hr>
+            </div>
+            <div class="col-lg-4 col-9 mx-auto">
+                <p class="text-faded mb-6">Trouvez un substitut pour un produit :</p>
+                <form class="form-group" action="#url searching_substitute" method="post"> <!-- TODO: add search function -->
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery" rows="1"
+                               placeholder="Recherche...">
+                        <input type="submit" class="input-group-addon btn btn-primary col-lg-5 col-5 mx-auto"
+                               value="Rechercher">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</header>
 
-{% endblock page_header %}
+<section class="page-section bg-primary" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading text-white">Colette et Rémy</h2>
+                <hr class="light my-4">
+
+                <p class="text-faded mb-4">Pur Beurre est l'initiative de deux amoureux de la gastronomie
+                    française, Colette Tatou et Rémy, que vous avez déjà certainement rencontrés dans notre excellent
+                    restaurant Ratatouille. </p>
+                <div class="row">
+                    <li data-toggle="modal" data-target="#carrousel1" class="col-lg-5 col-4 mx-auto"
+                        style="list-style-type: none;"><a
+                            href="#myCarousel1" data-slide-to="0">
+                        <img class="col-lg-7" style="background-color:white; border: 3px solid rgba(0,0,0,0.7);"
+                             src="{% static 'purebeurre_website/img/colette-tatou.png' %}"
+                             alt="..."></a></li>
+                    <li data-toggle="modal" data-target="#carrousel2" class="col-lg-7 col-6 mx-auto"
+                        style="list-style-type: none;"><a
+                            href="#myCarousel2" data-slide-to="0">
+                        <img class="col-lg-11" style="background-color:white; border: 3px solid rgba(0,0,0,0.7);"
+                             src="{% static 'purebeurre_websitesite/img/remy.jpg' %}"
+                             alt="..."></a></li>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading">Contactez-nous !</h2>
+                <hr class="my-4">
+                <p class="mb-5">Si vous voulez nous contacter pour tout problème ou autre merci d'utiliser ce mail ou ce numéro :'</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 ml-auto text-center">
+                <i class="fas fa-phone fa-3x mb-3 sr-contact-1"></i>
+                <p>123-456-6789</p>
+            </div>
+            <div class="col-lg-4 mr-auto text-center">
+                <i class="fas fa-envelope fa-3x mb-3 sr-contact-2"></i>
+                <p>
+                    <a href="mailto:your-email@your-domain.com">purbeurre@gateau.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="carousel1" class="caroussel">
+    <div class="modal fade" id="carrousel1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="pull-left">Colette Tatou</div>
+                    <button type="button" class="close" data-dismiss="modal" title="Close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-body">
+                    <!--CAROUSEL CODE GOES HERE-->
+                    <div id="myCarousel1" class="carousel slide" data-ride="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active row">
+                                <img class="col-lg-5 offset-lg-4 col-5 offset-4"
+                                     style="max-height:600px; max-width:300px;"
+                                     src="{% static 'purbeurre_website/img/colette-tatou-full.png' %}" alt="item0">
+                            </div>
+                            <div class="carousel-item row">
+                                <img class="col-lg-8 offset-lg-2"
+                                     src="{% static 'purebeurre_website/img/colette-1.jpg' %}" alt="item1">
+                            </div>
+                            <div class="carousel-item row">
+                                <img class="col-lg-9 offset-lg-2"
+                                     src="{% static 'purbeurre_website/img/colette-2.jpg' %}" alt="item2">
+                            </div>
+                            <div class="carousel-item row">
+                                <img class="col-lg-8 offset-lg-2"
+                                     src="{% static 'purbeurre_website/img/colette-3.jpg' %}" alt="item3">
+                            </div>
+
+                        </div>
+                        <!--end carousel-inner-->
+                        <!--Begin Previous and Next buttons-->
+                        <a class="carousel-control-prev" href="#myCarousel1" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon black" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#myCarousel1" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon black" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <!--end carousel-->
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <p class="col-lg-12">Nous aimons tous manger, surtout en France ! Personnellement, une baguette
+                        fraîche, du bon fromage de chèvre et un bon vin rouge me suffisent amplement. Comme tout le
+                        monde, je fais mes courses au supermarché.
+                        Mais petit à petit je me suis rendue compte, surtout lorsque nous avons ouvert le restaurant,
+                        que je pouvais remplacer les produits aseptisés que j'avais l'habitude d'acheter par de
+                        bons produits du terroir Et souvent pour le même prix !</p>
+                </div>
+                <button class="btn-sm close mx-auto" style="margin-bottom:3%;" type="button" data-dismiss="modal">
+                    Fermer
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>
+    </div>
+</section>
+
+<section id="carousel2" class="caroussel">
+    <div class="modal fade" id="carrousel2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="pull-left">Rémi</div>
+                    <button type="button" class="close" data-dismiss="modal" title="Close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-body">
+                    <!--CAROUSEL CODE GOES HERE-->
+                    <div id="myCarousel2" class="carousel slide" data-ride="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active row">
+                                <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/ratatouille-portrait.jpg' %}" alt="item0">
+                            </div>
+                            <div class="carousel-item row">
+                                <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/remy.jpg' %}" alt="item1">
+                            </div>
+                        </div>
+                        <!--end carousel-inner-->
+                        <!--Begin Previous and Next buttons-->
+                        <a class="carousel-control-prev" href="#myCarousel2" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#myCarousel2" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <!--end carousel-->
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <p class="col-lg-12">Pour ma part je me rendais déjà dans bien des magasins car j'aime beaucoup
+                        me balader, surtout dans les caves et les cuisines.
+                        Je connaissais par coeur le contenu des boutiques bio (dont je raffole) ainsi que
+                        les ingrédients de tous les aliments vendus.
+                        Lorsque Colette m\'a demandé si elle pouvait remplacer son Nutella matinal par un aliment
+                        plus sain, je savais tout de suite où le trouver.
+                        L'idée de Pur Beurre était née !</p>
+                </div>
+                <button class="btn-sm close mx-auto" style="margin-bottom:3%;" type="button" data-dismiss="modal">
+                    Fermer
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>
+    </div>
+</section>
+
+
+{% endblock content %}
