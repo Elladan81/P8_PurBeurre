@@ -19,7 +19,7 @@ Pur Beurre - Acceuil
             </div>
             <div class="col-lg-4 col-9 mx-auto">
                 <p class="text-faded mb-6">Trouvez un substitut pour un produit :</p>
-                <form class="form-group" action="#url searching_substitute" method="post"> <!-- TODO: add search function -->
+                <form class="form-group" action="{% url 'search' %}" method="post">
                     {% csrf_token %}
                     <div class="input-group">
                         <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery" rows="1"
