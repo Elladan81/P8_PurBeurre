@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% load search_extras %}
+{% block title %}
+{% if substitute != None %}
+Pur Beurre - Produit : {{ substitute }}
+{%else%}
+Pur Beurre - Produit : {{ product }}
+{% endif %}
+{% endblock title %}
+
+{% block body %}
+
+<body id="page-top">
+    {% endblock body %}
+    {% block menuTop %}
+    <a class="navbar-brand js-scroll-trigger" href="{% url 'acceuil' %}"> <img src="{% static 'site/img/favicon.ico' %}"
+            style="margin-bottom:4px;">
+        Pur Beurre</a>
+    {% endblock menuTop %}
+    {% block content %}
+    <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
+        <div class="container my-auto">
+            {% if substitute != None %}
+            <div class="row">
+                <div class="col-lg-5 mx-auto sproductname">
+                    <h1>
+                        <strong class="subName favName" title="{{ substitute }}">{{ substitute }}</strong>
+                    </h1>
+                    <div class="sproductimg ">
+                        <img class="img-fluid" src="{{ substitute.imgURL }}">
+                        <div class="col-lg-10 mx-auto text-center">
+                            <h3>
+                                Nutriscore : <span class=" text-uppercase"> {{ product.nutriscore }} </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <p class="col-12 col-lg-2 mx-auto" style="font-size:30px; margin-top:20%;">remplace</p>
+                <div class="col-lg-5 mx-auto sproductname">
+                    <h1>
+                        <strong class="subName favName" title="{{ product }}">{{ product }}</strong>
+                    </h1>
+                    <div class="sproductimg">
+                        <img class=" img-fluid" src="{{ product.imgURL }}">
+                        <div class="col-lg-10 mx-auto text-center">
+                            <h3>
+                                Nutriscore : <span class=" text-uppercase"> {{ product.nutriscore }} </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" style="padding-top:20px;">
+                <div class="col">
+                    <a href="{% url 'favoris_register' product.productName substitute.productName %}" class="btn btn-info btn-block"
+                        value=""><span class='fas fa-floppy-o'></span>
+                        Sauvegarder ce produit comme substitut de {{ product }}</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-lg-10 mx-auto sproductname">
+                    <h1>
+                        <strong class="">{{ product }}</strong>
+                    </h1>
+                </div>
+                <div class="sproductimg">
+                    <img src="{{ product.imgURL }}">
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </header>
+
+    <section class="texthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 mx-auto">
+                    {% if substitute != None %}
+                    <img class="img-fluid rounded" src="https://static.openfoodfacts.org/images/misc/nutriscore-{{substitute.nutriscore}}.svg"
+                        alt="NutriScore nutrition grade {{substitute.nutriscore}}">
+                    {%else%}
+                    <img class="img-fluid rounded" src="https://static.openfoodfacts.org/images/misc/nutriscore-{{product.nutriscore}}.svg"
+                        alt="NutriScore nutrition grade {{product.nutriscore}}">
+                    {%endif%}
+                </div>
+                <div class="col-lg-5 mx-auto">
+                    <img class="img-fluid rounded" src="{{ nutri_img }}" alt="Values for 100g">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-5 mx-auto">
+                    {% if substitute != None %}
+                    <a href="{{ substitute.productURL }}">
+                        {%else%}
+                        <a href="{{ product.productURL }}">
+                            {%endif%}
+                            <h3>Lien vers la page du produit sur OpenFoodFact</h3>
+                        </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock content %}

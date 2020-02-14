@@ -1,0 +1,190 @@
+{% extends "purbeurre_website/base.html" %}
+
+{% load static %}
+
+{% load search_extras %}
+
+{% block title %}
+{% if product != null %}
+    Pur Beurre - Recherche : {{ product.productName }}
+{% else %}
+    Pur Beurre - Recherche : {{ request.POST.product_name }}
+{% endif %}
+
+{% endblock title %}
+
+{% block body %}
+
+<body id="page-top">
+    {% endblock body %}
+
+    {% block menuTop %}
+    <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"> <img src="{% static 'purbeurrewebsite/img/favicon.ico' %}">
+        Pur Beurre</a>
+    {% endblock menuTop %}
+
+    {% block content %}
+    {% if product != null %}
+    <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-10 mx-auto sproductname">
+                    <h1>
+                        <strong class="">Aliment recherché : {{ product }}</strong>
+                    </h1>
+                </div>
+                <div class="sproductimg">
+                    <img class="img-fluid rounded mx-auto d-block" src="{{ img }}" alt="Fiche du produit">
+                    </a>
+                </div>
+                <div class="col-lg-10 mx-auto text-center">
+                    <h3>
+                        Nutriscore : <span class=" text-uppercase"> {{ product.nutriscore }} </span>
+                    </h3>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    {% if products_by_category|dictLenght != 0 %}
+    <section class="texthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto text-center">
+                    <h2>Vous pouvez remplacer cet aliment par : </h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products">
+        {% for category, substitutes in products_by_category.items %}
+        {% if substitutes|length != 0 %}
+        <h2 class="category text-center"><a class="category-head" data-toggle="collapse" href="#" data-target="#category{{forloop.counter}}">
+                {{category}}
+            </a></h2>
+
+        <div class="row collapse show" id="category{{forloop.counter}}">
+            {% for substitute in substitutes %}
+            <div class="col-5 col-md-5 col-lg-3 product">
+                <div class="productCard">
+                    <a href="{% url 'produit_substitut' product.productName substitute.productName %}">
+                        <div class="nutriscore nutricolor-{{substitute.nutriscore}} text-center text-uppercase">
+                            {{ substitute.nutriscore }}</div>
+
+                        {% if substitute.imgURL != None %}
+                        <img class="img-fluid rounded mx-auto d-block productImg" src="{{ substitute.imgURL }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title text-center"><a class="subName" href="{% url 'produit_substitut' product.productName substitute.productName %}"
+                                    title="{{ substitute }}">
+                                    {{ substitute }}
+                                </a></h4>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="{% url 'favoris_register' product.productName substitute.productName %}" class="btn btn-product btn-info btn-block"><span
+                                        class="fas fa-floppy-o"></span>
+                                    Sauvegarder</a>
+                            </div>
+                        </div>
+
+
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% endfor %}
+
+    </section>
+    {% else %}
+    <section class="texthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto text-center">
+                    <h2>Aucun substitut trouvé pour ce produit.</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% elif products != null %}
+
+    <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h1>
+                        <strong class="sproductname">Vous recherchez peut-être :</strong>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="products">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-5 col-md-4 col-lg-3 product">
+                <div class="productCard">
+                    <a href='javascript:void(0);' onclick='sendForm("{{ product.id }}")' title="Rechercher ce produit">
+                        <div class="nutriscore nutricolor-{{product.nutriscore}} text-center text-uppercase">
+                            {{ product.nutriscore }}</div>
+
+                        {% if product.imgURL != None %}
+                        <img class="img-fluid rounded mx-auto d-block productImg" src="{{ product.imgURL }}">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h4 class="card-title text-center"><a href="{% url 'produit' product.productName %}" class="subName"
+                                    title="{{ product }}">
+                                    {{ product }}
+                                </a></h4>
+                            <div class="row">
+                                <div class="col">
+                                    <p onclick="sendForm('{{ product.id }}')" class="btn btn-product btn-info btn-block"><span></span>
+                                        Rechercher ce produit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            {% endfor %}
+        </div>
+    </section>
+    <script>
+        function sendForm(product_name) {
+            document.getElementById("product_name").value = product_name;
+            document.getElementById("productRaw").value = true;
+            document.getElementById("productSearch").submit();
+        }
+    </script>
+    {% else %}
+    <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
+        <div class="container my-auto">
+            <div style="padding-bottom:28vh;">
+            </div>
+            <div class="row">
+                <div class="col-lg-10 mx-auto" style="padding-bottom:32vh;">
+                    <h1>
+                        <strong class="sproductname">Aucun produit n'as été trouvé ¯\_(ツ)_/¯</strong>
+                    </h1>
+                </div>
+                <div class="col-lg-10 mx-auto">
+                    <h1>
+                        <strong class="sproductname"></strong>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% endif %}
+
+    {% endblock content %}

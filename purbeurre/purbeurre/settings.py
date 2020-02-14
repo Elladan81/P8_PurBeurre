@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     # my apps
     'account.apps.AccountConfig',
     'purbeurre_website',
+    'substitute_food',
     # third party apps
     'bootstrap4',
     'social_django',

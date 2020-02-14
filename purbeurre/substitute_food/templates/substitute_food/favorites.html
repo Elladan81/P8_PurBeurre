@@ -1,0 +1,73 @@
+{% extends "purbeurre_website/base.html" %}
+{% load static %}
+
+{% block title %}
+Pur Beurre - Vos Favoris
+{% endblock title %}
+
+{% block body %}
+
+<body id="page-top">
+    {% endblock body %}
+    {% block menuTop %}
+    <a class="navbar-brand js-scroll-trigger" href="{% url 'acceuil' %}"> <img src="{% static 'site/img/favicon.ico' %}"
+            style="margin-bottom:4px;">
+        Pur Beurre</a>
+    {% endblock menuTop %}
+
+    {% block content %}
+    <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-10 mx-auto sproductname">
+                    <h1>
+                        <strong class="">Vos favoris</strong>
+                    </h1>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <section class="products">
+        <div class="row collapse show" id="category{{forloop.counter}}">
+            {% for favoris in favorites %}
+            <div class="col-5 col-md-5 col-lg-3 product">
+                <div class="productCard">
+                    <a href="{% url 'produit' favoris.substitute %}">
+                        <div class="nutriscore nutricolor-{{favoris.substitute.nutriscore}} text-center text-uppercase">
+                            {{ favoris.substitute.nutriscore }}</div>
+
+                        {% if favoris.substitute.imgURL != None %}
+                        <img class="img-fluid rounded mx-auto d-block productImg" src="{{ favoris.substitute.imgURL }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title text-center"><a class="subName" href="{% url 'produit' favoris.substitute %}"
+                                    title="{{ favoris.substitute }}">
+                                    {{ favoris.substitute }}
+                                </a></h4>
+                            <h4 class="card-title text-center">
+                                remplace</h4>
+                            <h4 class="card-title text-center"><a class="subName" href="{% url 'produit' favoris.product %}"
+                                    title="{{ favoris.product }}">
+                                    {{ favoris.product }}</a> au nutriscore <span class="text-uppercase">
+                                    {{ favoris.product.nutriscore }}</span>
+                            </h4>
+                            <div class="row" style="padding-top:20px;">
+                                <div class="col">
+                                    <a href="{% url 'favoris_remove' favoris.product favoris.substitute %}" class="btn btn-info btn-block"
+                                        value=""><span class='fas fa-times'></span>
+                                        Supprimer ce favori</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </section>
+    {% endblock content %}

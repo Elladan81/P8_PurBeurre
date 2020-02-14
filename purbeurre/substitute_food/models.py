@@ -87,8 +87,8 @@ class UserFavoriteProducts(models.Model):
     The profile is unique
 
     Fields:
-        user {User} -- The user owner of the Profile
-        favorites {Favorite ManyToManyField} -- The favorites of the profile
+        user {User} -- The user owner of the UserFavoriteProducts
+        favorites {FavoriteProduct ManyToManyField} -- The favorites of the UserFavoriteProducts
 
     Returns:
         {string} -- The username of the profile owner
