@@ -1,24 +1,26 @@
 {% extends "purbeurre_website/base.html" %}
+
 {% load static %}
 
 {% block title %}
+
 Pur Beurre - Vos Favoris
+
 {% endblock title %}
 
 {% block body %}
-
 <body id="page-top">
     {% endblock body %}
+
     {% block menuTop %}
-    <a class="navbar-brand js-scroll-trigger" href="{% url 'acceuil' %}"> <img src="{% static 'site/img/favicon.ico' %}"
-            style="margin-bottom:4px;">
-        Pur Beurre</a>
+    <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"> <img src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}"
+            style="margin-bottom:4px;">Pur Beurre</a>
     {% endblock menuTop %}
 
-    {% block content %}
+     {% block content %}
     <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
-        <div class="container my-auto">
-            <div class="row">
+        <div class="container">
+            <div class="row h-100">
                 <div class="col-lg-10 mx-auto sproductname">
                     <h1>
                         <strong class="">Vos favoris</strong>

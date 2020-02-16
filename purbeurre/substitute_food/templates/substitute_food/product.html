@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "purbeurre_website/base.html" %}
 {% load static %}
 {% load search_extras %}
 {% block title %}
@@ -14,7 +14,7 @@ Pur Beurre - Produit : {{ product }}
 <body id="page-top">
     {% endblock body %}
     {% block menuTop %}
-    <a class="navbar-brand js-scroll-trigger" href="{% url 'acceuil' %}"> <img src="{% static 'site/img/favicon.ico' %}"
+    <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"> <img src="{% static 'purbeurre_website/img/favicon.ico' %}"
             style="margin-bottom:4px;">
         Pur Beurre</a>
     {% endblock menuTop %}
@@ -55,7 +55,7 @@ Pur Beurre - Produit : {{ product }}
 
             <div class="row" style="padding-top:20px;">
                 <div class="col">
-                    <a href="{% url 'favoris_register' product.productName substitute.productName %}" class="btn btn-info btn-block"
+                    <a href="{% url 'favorites_register' product.productName substitute.productName %}" class="btn btn-info btn-block"
                         value=""><span class='fas fa-floppy-o'></span>
                         Sauvegarder ce produit comme substitut de {{ product }}</a>
                 </div>

@@ -1,4 +1,4 @@
-{% extends "purbeurre_website/base.html" %}
+{% extends 'purbeurre_website/base.html' %}
 
 {% load static %}
 
@@ -68,7 +68,7 @@
             {% for substitute in substitutes %}
             <div class="col-5 col-md-5 col-lg-3 product">
                 <div class="productCard">
-                    <a href="{% url 'produit_substitut' product.productName substitute.productName %}">
+                    <a href="{% url 'substitute_product' product.productName substitute.productName %}">
                         <div class="nutriscore nutricolor-{{substitute.nutriscore}} text-center text-uppercase">
                             {{ substitute.nutriscore }}</div>
 
@@ -76,14 +76,14 @@
                         <img class="img-fluid rounded mx-auto d-block productImg" src="{{ substitute.imgURL }}">
                         {% endif %}
                         <div class="card-body">
-                            <h4 class="card-title text-center"><a class="subName" href="{% url 'produit_substitut' product.productName substitute.productName %}"
+                            <h4 class="card-title text-center"><a class="subName" href="{% url 'substitute_product' product.productName substitute.productName %}"
                                     title="{{ substitute }}">
                                     {{ substitute }}
                                 </a></h4>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <a href="{% url 'favoris_register' product.productName substitute.productName %}" class="btn btn-product btn-info btn-block"><span
+                                <a href="{% url 'favorites_register' product.productName substitute.productName %}" class="btn btn-product btn-info btn-block"><span
                                         class="fas fa-floppy-o"></span>
                                     Sauvegarder</a>
                             </div>

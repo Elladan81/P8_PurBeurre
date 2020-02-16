@@ -81,21 +81,3 @@ class FavoriteProduct(models.Model):
         verbose_name_plural = "Favoris"
         ordering = ['product']
 
-
-class UserFavoriteProducts(models.Model):
-    """Store a profile
-    The profile is unique
-
-    Fields:
-        user {User} -- The user owner of the UserFavoriteProducts
-        favorites {FavoriteProduct ManyToManyField} -- The favorites of the UserFavoriteProducts
-
-    Returns:
-        {string} -- The username of the profile owner
-    """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True, )
-    favorites = models.ManyToManyField(
-        FavoriteProduct, blank=True)
-
-    def __str__(self):
-        return "Profil de {0}".format(self.user.username)

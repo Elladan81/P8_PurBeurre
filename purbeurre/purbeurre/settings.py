@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     # third party apps
     'bootstrap4',
     'social_django',
+    # Django app
+    'django.contrib.postgres',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -79,8 +81,12 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Openfoodfact',
+        'USER': 'PurBeurre',
+        'PASSWORD': 'food',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
