@@ -4,10 +4,10 @@ from random import randint
 import requests
 from django.contrib import messages
 from django.contrib.admin.utils import unquote
+from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import TrigramSimilarity
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-
 from .database_fill import fill, delete_db
 from .models import Product, FavoriteProduct
 
@@ -42,42 +42,48 @@ def list_product_by_category(products, categories, exclude_product):
 
 def search(request):
     """Display the page for product search
-
     Models:
         Product, Category
-
     Returns:
-        template : "substitute_food/search.html"
+        template : "site/search.html"
     """
-    name = request.POST.get('product_name', '')
+    query = request.POST.get('product_name', '')
+    print(query)  # debug
     random_img = randint(1, 3)
-    if name != "":
+    if query != "":
         try:
-            is_raw = bool(request.POST.get('productRaw'))
-            if is_raw:
-                product = Product.objects.get(id=name)
-                name = product.productName
-            else:
-                product = Product.objects.get(productName__icontains=name)
-            url = product.productURL
-            img = product.imgURL
-            substitutes = Product.objects.filter(
-                productName__icontains=name).exclude(
-                productName=product)
-            categories = product.category_set.all()
-            products_by_category = list_product_by_category(
-                substitutes, categories, product)
-            return render(request, 'substitute_food/search.html', locals())
-        except Product.MultipleObjectsReturned:
-            products = Product.objects.filter(
-                productName__icontains=name).order_by('nutriscore').distinct()
+            products = Product.objects.filter(productName__search=query).order_by('nutriscore')
+            print(products)
             return render(request, 'substitute_food/search.html', locals())
         except Product.DoesNotExist:
             return render(request, 'substitute_food/search.html', locals())
     else:
-        messages.error(
-            request, "Pour faire une recherche, merci d'entrer un aliment.")
+        messages.error(request, "Pour faire une recherche, merci d'entrer un aliment.")
         return render(request, 'purbeurre_website/index.html', locals())
+
+
+def find_substitute(request, query, product_id):
+    """Display the page of a product
+
+        Arguments:
+            query {string} -- Original query for product
+            product_id {string} -- Product to substitute
+
+        Returns:
+            template : "site/substitute.html"
+        """
+    product = Product.objects.get(id=product_id)
+    product_name = product.productName
+    url = product.productURL
+    img = product.imgURL
+    substitutes = Product.objects.filter(productName__icontains=query).order_by('nutriscore')\
+        .exclude(productName=product)
+    print(substitutes)
+    categories = product.category_set.all()
+    products_by_category = list_product_by_category(
+        substitutes, categories, product)
+    print(products_by_category)
+    return render(request, 'substitute_food/find_substitute.html', locals())
 
 
 def product_info(request, product_name):
@@ -139,13 +145,14 @@ def favorites(request):
     """
     random_img = randint(1, 3)
     if request.user.is_authenticated:
-        profile = request.user.profile
-        favoris = profile.favorites.all()
+        user = request.user
+        user_favorites = FavoriteProduct.objects.filter(user_rel=user)
         return render(request, 'substitute_food/favorites.html', locals())
     else:
         pass
 
 
+@login_required
 def register_fav(request, product_name, substitute_name):
     """View used to register a favorite in user profile
     Arguments:
@@ -158,8 +165,8 @@ def register_fav(request, product_name, substitute_name):
     """
     random_img = randint(1, 3)
     if request.user.is_authenticated:
-        profile = request.user.profile
-        favorites = profile.favorites.all()
+        user = request.user
+        user_favorites = FavoriteProduct.objects.filter(user_rel=user)
         try:
             product = Product.objects.get(productName=product_name)
         except Product.DoesNotExist:
@@ -172,26 +179,20 @@ def register_fav(request, product_name, substitute_name):
             messages.error(
                 request, "Le produit sélectionné n'as pas été trouvé.")
             return render(request, 'substitute_food/favorites.html', locals())
-        fav = FavoriteProduct(product=product, substitute=substitute)
+
+        favorite = FavoriteProduct.objects.filter(product=product, substitute=substitute, user_rel=user)
         try:
-            favorite = FavoriteProduct.objects.get(product=product, substitute=substitute)
-            try:
-                profile.favorites.get(product=product, substitute=substitute)
-                messages.error(request, "Favori déja existant")
-            except profile.DoesNotExist:
-                profile.favorites.add(fav)
-                messages.success(request, "Favori bien enregistré")
+            FavoriteProduct.objects.get(product=product, substitute=substitute, user_rel=user)
+            messages.error(request, "Favori déja existant")
         except FavoriteProduct.DoesNotExist:
-            favorite = None
-            fav.save()
-            profile.favorites.add(fav)
+            FavoriteProduct.objects.create(product=product, substitute=substitute, user_rel=user)
             messages.success(request, "Favori bien enregistré")
-        favoris = profile.favorites.all()
         return render(request, 'substitute_food/favorites.html', locals())
     else:
         return redirect('login')
 
 
+@login_required
 def remove_fav(request, product_name, substitute_name):
     """View used to remove a favorite in user userfavorites
     Arguments:
@@ -206,18 +207,18 @@ def remove_fav(request, product_name, substitute_name):
     """
     random_img = randint(1, 3)
     if request.user.is_authenticated:
-        favoris = request.user.profile
+        user = request.user
         product = Product.objects.get(productName=product_name)
         substitute = Product.objects.get(productName=substitute_name)
         try:
-            userfav = favorites.favorites.get(
-                product=product, substitute=substitute)
-            userfav.delete()
+            fav_to_delete = FavoriteProduct.objects.get(
+                product=product, substitute=substitute, user_rel=user)
+            fav_to_delete.delete()
             messages.success(request, "Favori supprimé !")
         except FavoriteProduct.DoesNotExist:
             messages.error(
                 request, "Ce favori n'existe pas.")
-        favoris = profile.favorites.all()
+        user_favorite = FavoriteProduct.objects.filter(user_rel=user)
         return render(request, 'substitute_food/favorites.html', locals())
     else:
         return redirect('connexion')

@@ -1,6 +1,8 @@
 {% extends "purbeurre_website/base.html" %}
 {% load static %}
+
 {% load search_extras %}
+
 {% block title %}
 {% if substitute != None %}
 Pur Beurre - Produit : {{ substitute }}
@@ -14,20 +16,20 @@ Pur Beurre - Produit : {{ product }}
 <body id="page-top">
     {% endblock body %}
     {% block menuTop %}
-    <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"> <img src="{% static 'purbeurre_website/img/favicon.ico' %}"
+    <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"> <img src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}"
             style="margin-bottom:4px;">
         Pur Beurre</a>
     {% endblock menuTop %}
     {% block content %}
-    <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
+    <header class="masthead text-center text-white d-flex">
         <div class="container my-auto">
             {% if substitute != None %}
             <div class="row">
-                <div class="col-lg-5 mx-auto sproductname">
+                <div class="col-lg-5 mx-auto">
                     <h1>
                         <strong class="subName favName" title="{{ substitute }}">{{ substitute }}</strong>
                     </h1>
-                    <div class="sproductimg ">
+                    <div class="sproductimg">
                         <img class="img-fluid" src="{{ substitute.imgURL }}">
                         <div class="col-lg-10 mx-auto text-center">
                             <h3>
@@ -36,8 +38,8 @@ Pur Beurre - Produit : {{ product }}
                         </div>
                     </div>
                 </div>
-                <p class="col-12 col-lg-2 mx-auto" style="font-size:30px; margin-top:20%;">remplace</p>
-                <div class="col-lg-5 mx-auto sproductname">
+                <p class="col-lg-2 mx-auto" style="font-size:30px; margin-top:20%;">remplace</p>
+                <div class="col-lg-5 mx-auto">
                     <h1>
                         <strong class="subName favName" title="{{ product }}">{{ product }}</strong>
                     </h1>
@@ -78,7 +80,7 @@ Pur Beurre - Produit : {{ product }}
 
     <section class="texthead">
         <div class="container">
-            <div class="row">
+            <div class="row h-100">
                 <div class="col-lg-5 mx-auto">
                     {% if substitute != None %}
                     <img class="img-fluid rounded" src="https://static.openfoodfacts.org/images/misc/nutriscore-{{substitute.nutriscore}}.svg"
@@ -88,19 +90,19 @@ Pur Beurre - Produit : {{ product }}
                         alt="NutriScore nutrition grade {{product.nutriscore}}">
                     {%endif%}
                 </div>
-                <div class="col-lg-5 mx-auto">
+                <div class="col-lg-5 center-block mx-auto">
                     <img class="img-fluid rounded" src="{{ nutri_img }}" alt="Values for 100g">
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row h-100">
                 <div class="col-lg-5 mx-auto">
                     {% if substitute != None %}
                     <a href="{{ substitute.productURL }}">
                         {%else%}
                         <a href="{{ product.productURL }}">
                             {%endif%}
-                            <h3>Lien vers la page du produit sur OpenFoodFact</h3>
+                            <h3 class="text-center">Lien vers la page du produit sur OpenFoodFact</h3>
                         </a>
                 </div>
             </div>

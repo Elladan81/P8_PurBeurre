@@ -89,7 +89,7 @@ class fill(Thread):
                                 nutriscore=product['nutrition_grades'],
                                 imgURL=product['image_front_url'])
                             for category in product['categories'].split(','):
-                                # SQL request to register a Categorie
+                                # SQL request to register a Category
                                 try:
                                     cat = Category.objects.get(
                                         categoryName=category).products.add(

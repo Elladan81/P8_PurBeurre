@@ -4,72 +4,73 @@
 
 {% block title %}
 
-Pur Beurre - Vos Favoris
+    Pur Beurre - Vos Favoris
 
 {% endblock title %}
 
 {% block body %}
-<body id="page-top">
-    {% endblock body %}
+    <body id="page-top">
+{% endblock body %}
 
-    {% block menuTop %}
-    <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"> <img src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}"
-            style="margin-bottom:4px;">Pur Beurre</a>
-    {% endblock menuTop %}
+{% block menuTop %}
+    <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"><img
+            src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}"
+            style="margin-bottom:4px;"> Pur Beurre</a>
+{% endblock menuTop %}
 
-     {% block content %}
-    <header class="sproducthead randimg{{random_img}} text-center text-white d-flex">
+{% block content %}
+    <header class="masthead h-25">
         <div class="container">
-            <div class="row h-100">
-                <div class="col-lg-10 mx-auto sproductname">
-                    <h1>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="text-uppercase text-center text-white font-weight-bold">
                         <strong class="">Vos favoris</strong>
                     </h1>
                 </div>
             </div>
-
         </div>
     </header>
 
     <section class="products">
-        <div class="row collapse show" id="category{{forloop.counter}}">
-            {% for favoris in favorites %}
-            <div class="col-5 col-md-5 col-lg-3 product">
-                <div class="productCard">
-                    <a href="{% url 'produit' favoris.substitute %}">
-                        <div class="nutriscore nutricolor-{{favoris.substitute.nutriscore}} text-center text-uppercase">
-                            {{ favoris.substitute.nutriscore }}</div>
+        <div class="row">
+            <div class="col-md-12">
+                {% for favorite in user_favorites %}
+                    <div class="card col-md-4 m-2 mt-4">
+                        <a href="{% url 'product' favorite.substitute %}">
+                            <div class="nutriscore nutricolor-{{ favorite.substitute.nutriscore }} text-center text-uppercase">
+                                {{ favorite.substitute.nutriscore }}</div>
 
-                        {% if favoris.substitute.imgURL != None %}
-                        <img class="img-fluid rounded mx-auto d-block productImg" src="{{ favoris.substitute.imgURL }}">
-                        {% endif %}
-                        <div class="card-body">
-                            <h4 class="card-title text-center"><a class="subName" href="{% url 'produit' favoris.substitute %}"
-                                    title="{{ favoris.substitute }}">
-                                    {{ favoris.substitute }}
+                            {% if favorite.substitute.imgURL != None %}
+                                <img class="img-fluid rounded mx-auto d-block productImg"
+                                     src="{{ favorite.substitute.imgURL }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h4 class="card-title text-center"><a class="subName"
+                                                                      href="{% url 'product' favorite.substitute %}"
+                                                                      title="{{ favorite.substitute }}">
+                                    {{ favorite.substitute }}
                                 </a></h4>
-                            <h4 class="card-title text-center">
-                                remplace</h4>
-                            <h4 class="card-title text-center"><a class="subName" href="{% url 'produit' favoris.product %}"
-                                    title="{{ favoris.product }}">
-                                    {{ favoris.product }}</a> au nutriscore <span class="text-uppercase">
-                                    {{ favoris.product.nutriscore }}</span>
-                            </h4>
-                            <div class="row" style="padding-top:20px;">
-                                <div class="col">
-                                    <a href="{% url 'favoris_remove' favoris.product favoris.substitute %}" class="btn btn-info btn-block"
-                                        value=""><span class='fas fa-times'></span>
-                                        Supprimer ce favori</a>
+                                <h4 class="card-title text-center">remplace</h4>
+                                <h4 class="card-title text-center">
+                                    <a class="subName"
+                                       href="{% url 'product' favorite.product %}"
+                                       title="{{ favorite.product }}">
+                                    {{ favorite.product }}</a> au nutriscore <span class="text-uppercase">
+                                    {{ favorite.product.nutriscore }}</span>
+                                </h4>
+                                <div class="row" style="padding-top:20px;">
+                                    <div class="col">
+                                        <a href="{% url 'favorites_remove' favorite.product favorite.substitute %}"
+                                           class="btn btn-info btn-block"
+                                           value=""><span class='fas fa-times'></span> Supprimer ce favori</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-
     </section>
-    {% endblock content %}
+
+{% endblock content %}

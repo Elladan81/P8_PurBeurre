@@ -1,0 +1,109 @@
+{% extends 'purbeurre_website/base.html' %}
+
+{% load static %}
+{% load search_extras %}
+
+{% block title %}
+
+    {% if product != null %}
+        Pur Beurre - Recherche : {{ product.productName }}
+    {% else %}
+        Pur Beurre - Recherche : {{ request.POST.product_name }}
+    {% endif %}
+
+{% endblock title %}
+
+{% block body %}
+
+    <body id="page-top">
+{% endblock body %}
+
+{% block menuTop %}
+    <a class="navbar-brand js-scroll-trigger"
+       href="{% url 'purbeurre_website:index' %}"><img
+            src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}">
+        Pur Beurre</a>
+{% endblock menuTop %}
+
+{% block content %}
+    <header class="masthead text-center text-white d-flex">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-10 mx-auto sproductname">
+                    <h1>
+                        <strong class="">Aliment recherché : {{ product }}</strong>
+                    </h1>
+                </div>
+                <div class="sproductimg">
+                    <img class="img-fluid rounded mx-auto d-block" src="{{ img }}"
+                         alt="Fiche du produit">
+                    </a>
+                </div>
+                <div class="col-lg-10 mx-auto text-center">
+                    <h3>
+                        Nutriscore : <span class=" text-uppercase"> {{ product.nutriscore }} </span>
+                    </h3>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    {% if products_by_category|dictLenght != 0 %}
+        <section class="texthead">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto text-center">
+                        <h2>Vous pouvez remplacer cet aliment par :</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="products">
+            <div class="container-fluid">
+                {% for category, substitutes in products_by_category.items %}
+                    {% if substitutes|length != 0 %}
+                        <h2 class="category text-center"><a class="category-head"
+                                                            data-toggle="collapse" href="#"
+                                                            data-target="#category{{ forloop.counter }}">{{ category }}</a>
+                        </h2>
+                        <div class="row collapse show" id="category{{ forloop.counter }}">
+                            {% for substitute in substitutes %}
+                                <div class="card col-4 m-2 mt-4">
+                                    <a href="{% url 'substitute_product' product.productName substitute.productName %}"></a>
+                                    <div class="nutriscore nutricolor-{{ substitute.nutriscore }} text-center text-uppercase">
+                                        {{ substitute.nutriscore }}
+                                    </div>
+                                    {% if substitute.imgURL != None %}
+                                        <img class="img-fluid rounded mx-auto d-block productImg"
+                                             src="{{ substitute.imgURL }}">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h4 class="card-title text-center">
+                                            <a class="subName"
+                                               href="{% url 'substitute_product' product.productName substitute.productName %}"
+                                               title="{{ substitute }}">
+                                                {{ substitute }}</a></h4>
+                                        <a href="{% url 'favorites_register' product.productName substitute.productName %}"
+                                           class="btn btn-product btn-info btn-block">
+                                            <span class="fas fa-floppy-o"></span>Sauvegarder</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+    {% else %}
+        <section class="texthead">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto text-center">
+                        <h2>Aucun substitut trouvé pour ce produit.</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock content %}

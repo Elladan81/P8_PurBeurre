@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     # post views
     path('search/', views.search, name="search"),
+    path('find_substitute/<query>/<product_id>/', views.find_substitute, name="find_substitute"),
     path('favorites/', views.favorites, name='favorites'),
     path('product/<product_name>', views.product_info, name="product"),
     path('product/<product_name>/<substitute_name>/',

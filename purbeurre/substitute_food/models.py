@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.conf import settings
+
 
 class Product(models.Model):
     """
@@ -67,6 +69,7 @@ class FavoriteProduct(models.Model):
     Returns:
        {string} -- The name of the substitute and the product
     """
+    user_rel = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='favorite', null=True)
     substitute = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name='%(class)s_substitute')
     product = models.ForeignKey(

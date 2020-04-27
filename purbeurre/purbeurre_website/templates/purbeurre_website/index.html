@@ -1,11 +1,12 @@
 {% extends "purbeurre_website/base.html" %}
 
 {% load static %}
-{% block title %}
-Pur Beurre - Acceuil
-{% endblock title %}
+
+{% block title %}Pur Beurre - Acceuil{% endblock title %}
+
 {% block body %}
 <body id="page-top">
+
 {% endblock body %}
 {% block content %}
 <header class="masthead text-center text-white d-flex">
@@ -25,7 +26,7 @@ Pur Beurre - Acceuil
                         <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery" rows="1"
                                placeholder="Recherche...">
                         <input type="submit" class="input-group-addon btn btn-primary col-lg-5 col-5 mx-auto"
-                               value="query">
+                               value="Rechercher">
                     </div>
                 </form>
             </div>
@@ -48,13 +49,13 @@ Pur Beurre - Acceuil
                         style="list-style-type: none;"><a
                             href="#myCarousel1" data-slide-to="0">
                         <img class="col-lg-7" style="background-color:white; border: 3px solid rgba(0,0,0,0.7);"
-                             src="{% static 'purebeurre_website/img/colette-tatou.png' %}"
+                             src="{% static 'purbeurre_website/img/colette-tatou.png' %}"
                              alt="..."></a></li>
                     <li data-toggle="modal" data-target="#carrousel2" class="col-lg-7 col-6 mx-auto"
                         style="list-style-type: none;"><a
                             href="#myCarousel2" data-slide-to="0">
                         <img class="col-lg-11" style="background-color:white; border: 3px solid rgba(0,0,0,0.7);"
-                             src="{% static 'purebeurre_websitesite/img/remy.jpg' %}"
+                             src="{% static 'purbeurre_website/img/ratatouille-portrait.jpg' %}"
                              alt="..."></a></li>
                 </div>
             </div>
@@ -69,7 +70,7 @@ Pur Beurre - Acceuil
             <div class="col-lg-8 mx-auto text-center">
                 <h2 class="section-heading">Contactez-nous !</h2>
                 <hr class="my-4">
-                <p class="mb-5">Si vous voulez nous contacter pour tout problème ou autre merci d'utiliser ce mail ou ce numéro :'</p>
+                <p class="mb-5">Si vous voulez nous contacter, merci d'utiliser ce mail ou ce numéro :</p>
             </div>
         </div>
         <div class="row">
@@ -104,11 +105,11 @@ Pur Beurre - Acceuil
                             <div class="carousel-item active row">
                                 <img class="col-lg-5 offset-lg-4 col-5 offset-4"
                                      style="max-height:600px; max-width:300px;"
-                                     src="{% static 'purbeurre_website/img/colette-tatou-full.png' %}" alt="item0">
+                                     src="{% static 'purbeurre_website/img/colette-tatou.png' %}" alt="item0">
                             </div>
                             <div class="carousel-item row">
                                 <img class="col-lg-8 offset-lg-2"
-                                     src="{% static 'purebeurre_website/img/colette-1.jpg' %}" alt="item1">
+                                     src="{% static 'purbeurre_website/img/colette-1.jpg' %}" alt="item1">
                             </div>
                             <div class="carousel-item row">
                                 <img class="col-lg-9 offset-lg-2"
@@ -171,7 +172,16 @@ Pur Beurre - Acceuil
                                 <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/ratatouille-portrait.jpg' %}" alt="item0">
                             </div>
                             <div class="carousel-item row">
-                                <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/remy.jpg' %}" alt="item1">
+                                <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/remy-8.jpg' %}" alt="item1">
+                            </div>
+                            <div class="carousel-item row">
+                                <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/remy-2.jpg' %}" alt="item1">
+                            </div>
+                            <div class="carousel-item row">
+                                <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/remy-4.jpg' %}" alt="item1">
+                            </div>
+                            <div class="carousel-item row">
+                                <img class="col-lg-8 offset-lg-2" src="{% static 'purbeurre_website/img/remy-5.jpg' %}" alt="item1">
                             </div>
                         </div>
                         <!--end carousel-inner-->
@@ -193,7 +203,7 @@ Pur Beurre - Acceuil
                         me balader, surtout dans les caves et les cuisines.
                         Je connaissais par coeur le contenu des boutiques bio (dont je raffole) ainsi que
                         les ingrédients de tous les aliments vendus.
-                        Lorsque Colette m\'a demandé si elle pouvait remplacer son Nutella matinal par un aliment
+                        Lorsque Colette m'a demandé si elle pouvait remplacer son Nutella matinal par un aliment
                         plus sain, je savais tout de suite où le trouver.
                         L'idée de Pur Beurre était née !</p>
                 </div>
@@ -203,8 +213,6 @@ Pur Beurre - Acceuil
             </div>
             <div class="clearfix"></div>
         </div>
-    </div>
-    </div>
     </div>
 </section>
 
