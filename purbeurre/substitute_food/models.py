@@ -70,6 +70,7 @@ class FavoriteProduct(models.Model):
        {string} -- The name of the substitute and the product
     """
     user_rel = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='favorite', null=True)
+    created = models.DateTimeField(auto_now_add=True)
     substitute = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name='%(class)s_substitute')
     product = models.ForeignKey(

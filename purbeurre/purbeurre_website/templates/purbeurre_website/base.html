@@ -24,13 +24,13 @@
 
     <!-- Theme CSS - Includes Bootstrap -->
     <link href="{% static 'purbeurre_website/css/creative.min.css' %}" rel="stylesheet">
-<link href="{% static 'purbeurre_website/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'purbeurre_website/css/style.css' %}" rel="stylesheet">
 
 </head>
 
 <body>
 {% block nav %}
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
             {% block menuTop %}
                 <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"><img
@@ -45,6 +45,19 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto row">
                     {% if user.is_authenticated %}
+                        <li class="nav-item center">
+                            <form class="form-group col-10" action="{% url 'search' %}" method="post">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery"
+                                           rows="1"
+                                           placeholder="Recherche...">
+                                    <input type="submit"
+                                           class="input-group-addon btn btn-primary col-lg-5 col-5 mx-auto"
+                                           value="Rechercher">
+                                </div>
+                            </form>
+                        </li>
                         <li class="nav-item center">
                             <a href="{% url 'dashboard' %}" class="fas fa-user matIcon col" title="Profil"></a>
                         </li>
@@ -63,11 +76,11 @@
                 </ul>
             </div>
         </div>
-</nav>
+    </nav>
 {% endblock nav %}
 
 <div id="content-main">
-{% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </div>
 
 

@@ -147,7 +147,7 @@ def favorites(request):
     random_img = randint(1, 3)
     if request.user.is_authenticated:
         user = request.user
-        user_favorites = FavoriteProduct.objects.filter(user_rel=user)
+        user_favorites = FavoriteProduct.objects.filter(user_rel=user).order_by('-created')
         return render(request, 'substitute_food/favorites.html', locals())
     else:
         pass

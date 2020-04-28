@@ -43,7 +43,7 @@
                 {% if forloop.counter0|divisibleby:3 %}
                     <div class="card-deck">
                     <div class="row col-12"> {% endif %}
-            <div class="card card m-4 text-center">
+            <div class="card col-4 card m-4 text-center">
                 <div class="nutriscore nutricolor-{{ product.nutriscore }} text-center text-uppercase">
                     {{ product.nutriscore }}
                 </div>
@@ -72,7 +72,7 @@
                 </div>
                 </div><!-- row closing -->
             {% endif %}
-                <hr>
+                <hr class="divider my-4">
             {% endfor %}
 
         </div>
