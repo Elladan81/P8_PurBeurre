@@ -21,53 +21,61 @@
 
 {% block menuTop %}
     <a class="navbar-brand js-scroll-trigger"
-       href="{% url 'purbeurre_website:index' %}"><img
-            src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}">
+       href="{% url 'purbeurre_website:index' %}">
+        <img src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}">
         Pur Beurre</a>
 {% endblock menuTop %}
 
 {% block content %}
 
     {% if products != null %}
-        <header class="masthead text-center text-white" style="height: 100px;">
-            <div class="container-fluid">
+        <header class="text-center text-white bg-dark d-flex" id="product-header">
+            <div class="container my-auto">
                 <div class="row">
-                    <div class="col-lg-12 mx-auto">
-                        <h1>
-                            <strong class="sproductname">Vous recherchez peut-être :</strong>
-                        </h1>
+                    <div class="col-lg-10 mx-auto sproductname">
+                        <h1><strong>Vous recherchez peut-être :</strong></h1>
                     </div>
                 </div>
             </div>
         </header>
-        <div class="container-fluid align-content-center">
-            <div class="row">
-                {% for product in products %}
-                    <div class="card col-3 m-2 align-items-stretch">
-                        <div class="nutriscore nutricolor-{{ product.nutriscore }} text-center text-uppercase">
-                            {{ product.nutriscore }}
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title text-center"><a
-                                    href="{% url 'product' product.productName %}"
-                                    class="subName"
-                                    title="{{ product }}">{{ product }}</a></h4>
-                            <div class="col">
-                                <div class="input-group">
-                                    <a class="btn btn-product col btn-info btn-block m-2"
-                                           href="{% url 'find_substitute' query product.id %}">Rechercher un substitut</a>
-                                </div>
-                            </div>
-                            {% if product.imgURL != None %}
-                                <img class="img-fluid rounded mx-auto d-block productImg"
-                                     src="{{ product.imgURL }}">
-                            {% endif %}
-                        </div>
+        <div class="container">
+            {% for product in products %}
+                {% if forloop.counter0|divisibleby:3 %}
+                    <div class="card-deck">
+                    <div class="row col-12"> {% endif %}
+            <div class="card card m-4 text-center">
+                <div class="nutriscore nutricolor-{{ product.nutriscore }} text-center text-uppercase">
+                    {{ product.nutriscore }}
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center"><a
+                            href="{% url 'product' product.productName %}"
+                            class="subName"
+                            title="{{ product }}">{{ product }}</a></h4>
+                    {% if product.imgURL != None %}
+                        <img class="img-thumbnail mx-auto my-auto d-block productImg m-4"
+                             src="{{ product.imgURL }}">
+                    {% endif %}
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ product.brands|title }}</li>
+                    <li class="list-group-item">{{ product.shops|default:"Non précisé" }}</li>
+                </ul>
+                <div class="card-footer bg-white">
+                    <div class="input-group">
+                        <a class="btn btn-product col btn-info btn-block m-2"
+                           href="{% url 'find_substitute' query product.id %}">Rechercher un substitut</a>
                     </div>
-                {% endfor %}
+                </div>
             </div>
-        </div>
+            {% if forloop.counter|divisibleby:3 or forloop.last %}
+                </div>
+                </div><!-- row closing -->
+            {% endif %}
+                <hr>
+            {% endfor %}
 
+        </div>
 
     {% else %}
         <header class="masthead text-center text-white d-flex">
@@ -77,7 +85,7 @@
                 <div class="row">
                     <div class="col-lg-10 mx-auto" style="padding-bottom:32vh;">
                         <h1>
-                            <strong class="sproductname">Aucun produit n'as été trouvé
+                            <strong class="sproductname">Aucun produit n'a été trouvé
                                 ¯\_(ツ)_/¯</strong>
                         </h1>
                     </div>

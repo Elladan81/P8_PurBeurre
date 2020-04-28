@@ -13,13 +13,10 @@
     <div class="container my-auto">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <h1 class="text-uppercase">
-                    <strong>Du gras, oui, mais de qualité !</strong>
-                </h1>
-                <hr>
+                <h1 class="text-uppercase m-2"><strong>Du gras, oui, mais de qualité !</strong></h1>
             </div>
-            <div class="col-lg-4 col-9 mx-auto">
-                <p class="text-faded mb-6">Trouvez un substitut pour un produit :</p>
+            <div class="col-lg-5 col-9 mx-auto">
+                <p class="text-faded mb-6">Trouvez un produit de substitution pour un produit que vous consommez tous les jours :</p>
                 <form class="form-group" action="{% url 'search' %}" method="post">
                     {% csrf_token %}
                     <div class="input-group">

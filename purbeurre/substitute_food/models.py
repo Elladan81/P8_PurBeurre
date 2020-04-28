@@ -48,7 +48,7 @@ class Category(models.Model):
         {string} -- The name of the category
     """
     categoryName = models.CharField(max_length=150, unique=True)
-    products = models.ManyToManyField(Product)
+    products = models.ManyToManyField('Product')
 
     def __str__(self):
         return self.categoryName

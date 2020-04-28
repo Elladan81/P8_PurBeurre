@@ -5,7 +5,7 @@ import requests
 from django.contrib import messages
 from django.contrib.admin.utils import unquote
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.postgres.search import SearchVector
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .database_fill import fill, delete_db
@@ -36,7 +36,7 @@ def list_product_by_category(products, categories, exclude_product):
         for product in products:
             product_already_listed.append(product.productName)
         products_by_category[category.categoryName] = products.exclude(
-            id=exclude_product.id).order_by('nutriscore').distinct()
+            id=exclude_product.id).order_by('nutriscore').distinct()[:9]
     return products_by_category
 
 
@@ -52,7 +52,8 @@ def search(request):
     random_img = randint(1, 3)
     if query != "":
         try:
-            products = Product.objects.filter(productName__search=query).order_by('nutriscore')
+            products = Product.objects.annotate(search=SearchVector('productName', 'brands')).filter(
+                search=query).order_by('-nutriscore')[:18]
             print(products)
             return render(request, 'substitute_food/search.html', locals())
         except Product.DoesNotExist:
@@ -76,8 +77,8 @@ def find_substitute(request, query, product_id):
     product_name = product.productName
     url = product.productURL
     img = product.imgURL
-    substitutes = Product.objects.filter(productName__icontains=query).order_by('nutriscore')\
-        .exclude(productName=product)
+    substitutes = Product.objects.filter(productName__search=query).order_by('nutriscore') \
+                      .exclude(productName=product)[:30]
     print(substitutes)
     categories = product.category_set.all()
     products_by_category = list_product_by_category(
@@ -215,6 +216,7 @@ def remove_fav(request, product_name, substitute_name):
                 product=product, substitute=substitute, user_rel=user)
             fav_to_delete.delete()
             messages.success(request, "Favori supprimé !")
+            return redirect('favorites')
         except FavoriteProduct.DoesNotExist:
             messages.error(
                 request, "Ce favori n'existe pas.")

@@ -19,55 +19,60 @@
 {% endblock menuTop %}
 
 {% block content %}
-    <header class="masthead h-25">
-        <div class="container">
+
+    <header class="text-center text-white bg-dark d-flex" id="product-header">
+        <div class="container my-auto">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="text-uppercase text-center text-white font-weight-bold">
-                        <strong class="">Vos favoris</strong>
+                <div class="col-lg-10 mx-auto sproductname">
+                    <h1><strong class="">Vos favoris</strong>
                     </h1>
                 </div>
             </div>
         </div>
     </header>
-
     <section class="products">
-        <div class="row">
-            <div class="col-md-12">
+        <div class="container">
+            <div class="card-deck">
                 {% for favorite in user_favorites %}
-                    <div class="card col-md-4 m-2 mt-4">
-                        <a href="{% url 'product' favorite.substitute %}">
-                            <div class="nutriscore nutricolor-{{ favorite.substitute.nutriscore }} text-center text-uppercase">
-                                {{ favorite.substitute.nutriscore }}</div>
-
-                            {% if favorite.substitute.imgURL != None %}
-                                <img class="img-fluid rounded mx-auto d-block productImg"
-                                     src="{{ favorite.substitute.imgURL }}">
-                            {% endif %}
-                            <div class="card-body">
-                                <h4 class="card-title text-center"><a class="subName"
-                                                                      href="{% url 'product' favorite.substitute %}"
-                                                                      title="{{ favorite.substitute }}">
-                                    {{ favorite.substitute }}
-                                </a></h4>
-                                <h4 class="card-title text-center">remplace</h4>
-                                <h4 class="card-title text-center">
-                                    <a class="subName"
-                                       href="{% url 'product' favorite.product %}"
-                                       title="{{ favorite.product }}">
-                                    {{ favorite.product }}</a> au nutriscore <span class="text-uppercase">
-                                    {{ favorite.product.nutriscore }}</span>
-                                </h4>
-                                <div class="row" style="padding-top:20px;">
-                                    <div class="col">
-                                        <a href="{% url 'favorites_remove' favorite.product favorite.substitute %}"
-                                           class="btn btn-info btn-block"
-                                           value=""><span class='fas fa-times'></span> Supprimer ce favori</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+                    {% if forloop.counter0|divisibleby:3 %}
+                        <div class="row col-12"> {% endif %}
+                <div class="card m-4 text-center">
+                    <div class="nutriscore nutricolor-{{ favorite.substitute.nutriscore }} text-uppercase">
+                        {{ favorite.substitute.nutriscore }}
                     </div>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a class="subName"
+                               href="{% url 'product' favorite.substitute %}">{{ favorite.substitute }}</a></h4>
+                        <h4 class="card-title">Remplace :</h4>
+                        <h4 class="card-title">
+                            <a class="subName"
+                               href="{% url 'product' favorite.product %}"
+                               title="{{ favorite.product }}">
+                                {{ favorite.product }}</a> au nutriscore <span class="text-uppercase">
+                                    {{ favorite.product.nutriscore }}</span>
+
+                        </h4>
+                        {% if favorite.substitute.imgURL != None %}
+                            <img class="img-thumbnail mx-auto my-auto d-block productImg m-4"
+                                 src="{{ favorite.substitute.imgURL }}">
+                        {% endif %}
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Marque
+                            : {{ favorite.substitute.brands|title|default:"Non précisé"|truncatewords:4 }}</li>
+                        <li class="list-group-item">Magasin
+                            : {{ favorite.substitute.shops|title|default:"Non précisé"|truncatewords:4 }}</li>
+                    </ul>
+                    <div class="card-footer bg-white">
+                        <a href="{% url 'favorites_remove' favorite.product favorite.substitute %}"
+                           class="btn btn-info btn-block"
+                           value=""><span class='fas fa-times'></span> Supprimer ce favori</a></div>
+                </div>
+                {% if forloop.counter|divisibleby:3 or forloop.last %}
+                    </div><!-- row closing -->
+                    <hr>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
