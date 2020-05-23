@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # third party apps
     'bootstrap4',
     'social_django',
+    'crispy_forms',
     # Django app
     'django.contrib.postgres',
     'django.contrib.admin',
@@ -142,3 +143,5 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

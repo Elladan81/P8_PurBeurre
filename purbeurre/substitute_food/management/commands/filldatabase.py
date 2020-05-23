@@ -1,7 +1,6 @@
 import datetime
-
 from django.core.management.base import BaseCommand
-from purbeurre.substitute_food.database_fill import fill_cron
+from substitute_food.database_fill import fill_cron
 
 
 class Command(BaseCommand):

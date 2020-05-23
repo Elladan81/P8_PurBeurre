@@ -81,7 +81,7 @@ class FavoriteProduct(models.Model):
                 + " / Produit : " + str(self.product))
 
     class Meta:
-        verbose_name = "Favoris"
+        verbose_name = "Favori"
         verbose_name_plural = "Favoris"
         ordering = ['product']
 

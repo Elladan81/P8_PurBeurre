@@ -23,8 +23,8 @@ def list_product_by_category(products, categories, exclude_product):
         exclude_product {Product} -- The original product to exclude
 
     Returns:
-        products_by_category {dict} -- The products ordered by categorie and
-        nutriscore
+        products_by_category {dict} -- The products ordered by categories and
+        nutriscores
     """
     product_already_listed = []
     products_by_category = {}
@@ -48,8 +48,6 @@ def search(request):
         template : "site/search.html"
     """
     query = request.POST.get('product_name', '')
-    print(query)  # debug
-    random_img = randint(1, 3)
     if query != "":
         try:
             products = Product.objects.annotate(search=SearchVector('productName', 'brands')).filter(
@@ -77,13 +75,11 @@ def find_substitute(request, query, product_id):
     product_name = product.productName
     url = product.productURL
     img = product.imgURL
-    substitutes = Product.objects.filter(productName__search=query).order_by('nutriscore') \
-                      .exclude(productName=product)[:30]
-    print(substitutes)
+    substitutes = Product.objects.filter(productName__search=query).order_by('nutriscore').exclude(productName=product)[
+                  :30]
     categories = product.category_set.all()
     products_by_category = list_product_by_category(
         substitutes, categories, product)
-    print(products_by_category)
     return render(request, 'substitute_food/find_substitute.html', locals())
 
 
@@ -99,8 +95,6 @@ def product_info(request, product_name):
     Returns:
         template : "site/product.html"
     """
-
-    random_img = randint(1, 3)
     product_name = unquote(product_name)
     product = Product.objects.get(productName=product_name)
     url = product.productURL
@@ -122,8 +116,6 @@ def product_substitute_info(request, product_name, substitute_name):
     Returns:
         template : "substitute_food//product.html"
     """
-
-    random_img = randint(1, 3)
     product = Product.objects.get(productName=product_name)
     substitute = Product.objects.get(productName=substitute_name)
     url = substitute.productURL
@@ -134,7 +126,7 @@ def product_substitute_info(request, product_name, substitute_name):
     nutri_img = data['product']["image_nutrition_url"]
     return render(request, 'substitute_food/product.html', locals())
 
-
+@login_required
 def favorites(request):
     """Display the favorite page of user
 
@@ -144,7 +136,6 @@ def favorites(request):
     Returns:
         template : "site/favoris.html"
     """
-    random_img = randint(1, 3)
     if request.user.is_authenticated:
         user = request.user
         user_favorites = FavoriteProduct.objects.filter(user_rel=user).order_by('-created')
@@ -164,7 +155,6 @@ def register_fav(request, product_name, substitute_name):
     Returns:
         template : "substitute_food/favorites.html"
     """
-    random_img = randint(1, 3)
     if request.user.is_authenticated:
         user = request.user
         user_favorites = FavoriteProduct.objects.filter(user_rel=user)
@@ -206,7 +196,6 @@ def remove_fav(request, product_name, substitute_name):
     Returns:
         template : "site/favoris.html"
     """
-    random_img = randint(1, 3)
     if request.user.is_authenticated:
         user = request.user
         product = Product.objects.get(productName=product_name)

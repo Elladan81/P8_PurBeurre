@@ -62,7 +62,6 @@ class fill(Thread):
         self.page = page
 
     def run(self):
-        products = []
         try:
             products = json_products_list(self.page)
             for product in products['products']:
@@ -99,10 +98,8 @@ class fill(Thread):
                                         categoryName=category)
                                     cat.products.add(
                                         productobj)
-
                 except KeyError:
                     continue
-
         finally:
             pass
 
