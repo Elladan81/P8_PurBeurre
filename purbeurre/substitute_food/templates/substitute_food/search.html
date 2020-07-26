@@ -28,16 +28,21 @@
 
 {% block content %}
 
-    {% if products != null %}
-        <header class="text-center text-white bg-dark d-flex" id="product-header">
-            <div class="container my-auto">
-                <div class="row">
-                    <div class="col-lg-10 mx-auto sproductname">
-                        <h1><strong>Vous recherchez peut-être :</strong></h1>
-                    </div>
-                </div>
+    {% if products %}
+        {% if random_image %}
+            <header class="text-center text-white d-flex" style="background-image: url({{ random_image }})"
+                    id="product-header">
+        {% else %}
+             <header class="text-center text-white bg-dark d-flex" id="product-header">
+        {% endif %}
+    <div class="container my-auto">
+        <div class="row">
+            <div class="col-lg-10 mx-auto sproductname">
+                <h1><strong>Vous recherchez peut-être :</strong></h1>
             </div>
-        </header>
+        </div>
+    </div>
+    </header>
         <div class="container">
             {% for product in products %}
                 {% if forloop.counter0|divisibleby:3 %}
@@ -76,7 +81,6 @@
             {% endfor %}
 
         </div>
-
     {% else %}
         <header class="masthead text-center text-white d-flex">
             <div class="container my-auto">

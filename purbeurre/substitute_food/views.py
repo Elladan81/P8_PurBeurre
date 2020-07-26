@@ -1,6 +1,4 @@
-import profile
-from random import randint
-
+from random import randint, random, choice
 import requests
 from django.contrib import messages
 from django.contrib.admin.utils import unquote
@@ -52,7 +50,9 @@ def search(request):
         try:
             products = Product.objects.annotate(search=SearchVector('productName', 'brands')).filter(
                 search=query).order_by('-nutriscore')[:18]
-            print(products)
+            if products:
+                random_product = Product.objects.get(productName=choice(products))
+                random_image = random_product.imgURL
             return render(request, 'substitute_food/search.html', locals())
         except Product.DoesNotExist:
             return render(request, 'substitute_food/search.html', locals())
@@ -126,9 +126,10 @@ def product_substitute_info(request, product_name, substitute_name):
     nutri_img = data['product']["image_nutrition_url"]
     return render(request, 'substitute_food/product.html', locals())
 
+
 @login_required
 def favorites(request):
-    """Display the favorite page of user
+    """Display user's favorites
 
     Models:
         Favorite
@@ -139,6 +140,12 @@ def favorites(request):
     if request.user.is_authenticated:
         user = request.user
         user_favorites = FavoriteProduct.objects.filter(user_rel=user).order_by('-created')
+        print(user_favorites)
+        if user_favorites:
+            for fav in user_favorites:
+                products = [fav.product]
+                random_product = Product.objects.get(productName=choice(products))
+                random_image = random_product.imgURL
         return render(request, 'substitute_food/favorites.html', locals())
     else:
         pass
@@ -158,6 +165,11 @@ def register_fav(request, product_name, substitute_name):
     if request.user.is_authenticated:
         user = request.user
         user_favorites = FavoriteProduct.objects.filter(user_rel=user)
+        if user_favorites :
+            for fav in user_favorites:
+                products = [fav.product]
+                random_product = Product.objects.get(productName=choice(products))
+                random_image = random_product.imgURL
         try:
             product = Product.objects.get(productName=product_name)
         except Product.DoesNotExist:
@@ -170,7 +182,6 @@ def register_fav(request, product_name, substitute_name):
             messages.error(
                 request, "Le produit sélectionné n'as pas été trouvé.")
             return render(request, 'substitute_food/favorites.html', locals())
-
         favorite = FavoriteProduct.objects.filter(product=product, substitute=substitute, user_rel=user)
         try:
             FavoriteProduct.objects.get(product=product, substitute=substitute, user_rel=user)

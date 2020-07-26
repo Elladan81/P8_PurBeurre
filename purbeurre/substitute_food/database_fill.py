@@ -33,8 +33,8 @@ def json_products_list(page_number):
 
 
 def product_correct(product):
-    """Function used to verify if the product can be insered in database
-    It check that the product as the required tags and that is complete
+    """Function used to verify if the product can be inserted in the database
+    It checks that the product has the required tags and is complete
 
     Arguments:
         product {json} -- The product json object
