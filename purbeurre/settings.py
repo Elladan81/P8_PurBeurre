@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'OpenFoodFact2',
         'USER': 'PurBeurre',
         'PASSWORD': POSTGRE_PASSWORD,
