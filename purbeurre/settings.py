@@ -12,12 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
-
-# Activate Django-Heroku.
 from django.contrib import staticfiles
-
-django_heroku.settings(locals())
-PURBEURRE_POSTGRE_PASSWORD = os.environ.get('PURBEURRE_POSTGRE_PASSWORD')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('PURBEURRE_SECRET_KEY')
+POSTGRE_PASSWORD = os.environ.get('PURBEURRE_POSTGRE_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'OpenFoodFact2',
         'USER': 'PurBeurre',
-        'PASSWORD': PURBEURRE_POSTGRE_PASSWORD,
+        'PASSWORD': POSTGRE_PASSWORD,
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -155,4 +151,5 @@ AUTHENTICATION_BACKENDS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
+# Activate Django-Heroku.
+django_heroku.settings(locals())
