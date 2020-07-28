@@ -14,6 +14,8 @@ import os
 import django_heroku
 
 # Activate Django-Heroku.
+from django.contrib import staticfiles
+
 django_heroku.settings(locals())
 PURBEURRE_POSTGRE_PASSWORD = os.environ.get('PURBEURRE_POSTGRE_PASSWORD')
 
@@ -131,7 +133,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # my settings
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -152,4 +157,4 @@ AUTHENTICATION_BACKENDS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
