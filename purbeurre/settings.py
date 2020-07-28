@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+PURBEURRE_POSTGRE_PASSWORD = os.environ.get('PURBEURRE_POSTGRE_PASSWORD')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,12 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+&+@0skcd7*h^19ih4di9e@ajydh-lite7lgqlw$7_3$lptgww'
+SECRET_KEY = os.environ.get('PURBEURRE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -85,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'OpenFoodFact2',
         'USER': 'PurBeurre',
-        'PASSWORD': 'food',
+        'PASSWORD': PURBEURRE_POSTGRE_PASSWORD,
         'HOST': 'localhost',
         'PORT': '5432',
     }
