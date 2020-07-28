@@ -1,0 +1,25 @@
+{% extends "purbeurre_website/base.html" %}
+{% load static %}
+
+{% block title %}Logged out{% endblock %}
+
+{% block body %}
+<body id="page-top">
+{% endblock body %}
+
+{% block content %}
+<header class="masthead">
+    <div class="container">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+                <h1 class="text-uppercase text-white font-weight-bold">Déconnecté</h1>
+                    <hr class="divider my-4">
+                    <div class="col-lg-4 col-9 mx-auto">
+                <p class="text-white-75 font-weight-light mb-5">Vous avez été déconnecté, vous pouvez vous <a href="{% url 'login' %}">connecter à nouveau</a>.</p>
+                    </div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+{% endblock %}

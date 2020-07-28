@@ -1,0 +1,113 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/dashboard.css' %}">{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %} {% endblock %}
+
+{% block content %}
+
+<a href="{% url 'admin:index' %}">Retourner a l'acceuil</a>
+
+<p> Merci d'entrer à côté du bouton "Fill" le nombre de pages OpenFoodFact que vous voulez récupérer. Merci de ne pas
+    quitter la page lors du remplissage, pour arrêter le remplissage appuyer sur le bouton "Stop".</p>
+
+<div class="w3-grey" id="progressBar">
+    <div class="progress w3-green" style="height:24px;width:0%;"> 0%
+    </div>
+</div>
+
+<div style="margin-top: 5px;">
+    <button class="w3-button w3-grey" onclick="fill();">Fill</button>
+    <input id="pageNB" type="text">
+</div>
+
+<div>
+    <button class="w3-button w3-grey" onclick="stop()">Stop</button>
+</div>
+
+<style>
+    .w3-grey,
+    .w3-hover-grey:hover,
+    .w3-gray,
+    .w3-hover-gray:hover {
+        color: #000 !important;
+        background-color: #cecece !important
+    }
+
+    .w3-green,
+    .w3-hover-green:hover {
+        background-color: #4CAF50 !important
+    }
+
+    .w3-btn,
+    .w3-button {
+        border: none;
+        display: inline-block;
+        padding: 8px 16px;
+        vertical-align: middle;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        background-color: inherit;
+        text-align: center;
+        cursor: pointer;
+        white-space: nowrap
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+    var i = 1;
+    var filling = true;
+
+    function progress(percent, $element) {
+        var progressBarWidth = percent * $element.width() / 100;
+        $element.find('div').animate({
+            width: progressBarWidth
+        }, 700).html(percent + "% ");
+    }
+
+    function fill() {
+        var pages = $("#pageNB").val();
+        filling = true;
+        $("#pageNB").prop('disabled', true);
+        var percent = 0;
+        var interval = setInterval(function () {
+            $.ajax({
+                url: "{% url 'fill_data' %}",
+                data: {
+                    'page': i
+                },
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.is_taken) {
+                        percent = i / pages * 100;
+                        progress(percent, $('#progressBar'));
+                    }
+                }
+            })
+            i++;
+            if (!(filling && i <= pages)) {
+                clearInterval(interval)
+                window.location.href = "{% url 'fill_success' %}";
+            }
+        })
+    }
+
+    function stop() {
+        filling = false;
+    }
+</script>
+
+
+
+{% endblock content %}

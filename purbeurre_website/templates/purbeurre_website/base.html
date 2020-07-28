@@ -1,0 +1,135 @@
+<!doctype html>
+
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    {% load static %}
+
+    <!-- Font Awesome Icons -->
+    <link href="{% static 'purbeurre_website/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet"
+          type="text/css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic'
+          rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="{% static 'purbeurre_website/vendor/magnific-popup/magnific-popup.css' %}" rel="stylesheet">
+
+    <!-- Theme CSS - Includes Bootstrap -->
+    <link href="{% static 'purbeurre_website/css/creative.min.css' %}" rel="stylesheet">
+    <link href="{% static 'purbeurre_website/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+{% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            {% block menuTop %}
+                <a class="navbar-brand js-scroll-trigger" href="{% url 'purbeurre_website:index' %}"><img
+                        src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}">
+                    Pur Beurre</a>
+            {% endblock menuTop %}
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto row">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item center">
+                            <form class="form-group col-10" action="{% url 'search' %}" method="post">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery"
+                                           rows="1"
+                                           placeholder="Recherche...">
+                                    <input type="submit"
+                                           class="input-group-addon btn btn-primary col-lg-5 col-5 mx-auto"
+                                           value="Rechercher">
+                                </div>
+                            </form>
+                        </li>
+                        <li class="nav-item center">
+                            <a href="{% url 'dashboard' %}" class="fas fa-user matIcon col" title="Profil"></a>
+                        </li>
+                        <li class="nav-item center">
+                            <a href="{% url 'favorites' %}" class="fas fa-carrot matIcon col" title="Mes Substitus"></a>
+                        </li>
+                        <li class="nav-item center" style="margin-bottom:2%;">
+                            <a href="{% url 'logout' %}" class="fas fa-sign-out-alt matIcon col"
+                               title="Se déconnecter"></a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item center">
+                            <a href="{% url 'login' %}" class="fas fa-sign-in-alt matIcon col" title="Se connecter"></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock nav %}
+
+<div id="content-main">
+
+    {% block content %}
+        <section class="messages" id="content-messages">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert"></strong>Important
+                        :</strong>
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </section>
+    {% endblock %}
+</div>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/popper.js@1.14.6/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tooltip.js@1.3.1/dist/umd/tooltip.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="{% static 'purbeurre_website/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'purbeurre_website/vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+<!-- Custom scripts for this template -->
+<script src="{% static 'purbeurre_website/js/creative.min.js' %}"></script>
+
+{% block footer %}
+    <footer class="footer py-2 row mx-auto text-center">
+        <div class="col-3 mx-auto"><a href="#mentionslégales">Mentions légales</a>
+        </div>
+        <div class="col-3 mx-auto"><a href="#contact">Contact</a>
+        </div>
+    </footer>
+{% endblock footer %}
+
+</body>
+
+</html>
