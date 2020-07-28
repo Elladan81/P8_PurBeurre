@@ -165,7 +165,7 @@ def register_fav(request, product_name, substitute_name):
     if request.user.is_authenticated:
         user = request.user
         user_favorites = FavoriteProduct.objects.filter(user_rel=user)
-        if user_favorites :
+        if user_favorites:
             for fav in user_favorites:
                 products = [fav.product]
                 random_product = Product.objects.get(productName=choice(products))

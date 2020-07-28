@@ -27,7 +27,7 @@ class TestSearch(TestCase):
         client = Client()
         Product.objects.create(productName="Test")
         response = client.post(
-            '/search', {"product_name": "Test"}, follow=True)
+            '/search/', {"product_name": "Test"}, follow=True)
         self.assertContains(response, "Test")
 
     def test_find_substitute(self):
@@ -43,6 +43,6 @@ class TestSearch(TestCase):
         category.products.add(obj1)
         category.products.add(obj2)
         response = client.post(
-            '/search', {"product_name": "Test2"}, follow=True)
+            '/find_substitute/Test2/2', follow=True)
         self.assertEqual(
             response.context['products_by_category']['categoryTest'][0], obj1)

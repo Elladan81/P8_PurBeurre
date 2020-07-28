@@ -80,7 +80,28 @@
 {% endblock nav %}
 
 <div id="content-main">
-    {% block content %}{% endblock %}
+
+    {% block content %}
+        <section class="messages" id="content-messages">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert"></strong>Important
+                        :</strong>
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </section>
+    {% endblock %}
 </div>
 
 

@@ -54,3 +54,13 @@ body {
     height: 250px;
     margin: auto;
 }
+
+.messages{
+    display: block;
+    position: absolute;
+    top: 100px;
+    height: auto;
+    width: auto;
+    z-index: 800;
+    margin: auto;
+}
