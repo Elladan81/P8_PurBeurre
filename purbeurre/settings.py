@@ -27,7 +27,7 @@ POSTGRE_PASSWORD = os.environ.get('PURBEURRE_POSTGRE_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com']
 
 # Application definition
 
