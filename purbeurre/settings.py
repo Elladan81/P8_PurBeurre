@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('PURBEURRE_SECRET_KEY')
 POSTGRE_PASSWORD = os.environ.get('PURBEURRE_POSTGRE_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com']
 
@@ -93,6 +93,7 @@ DATABASES = {
         'PASSWORD': POSTGRE_PASSWORD,
         'HOST': 'localhost',
         'PORT': '5432',
+        'CONN_MAX_AGE': 20,
     }
 }
 
