@@ -189,6 +189,12 @@ def register_fav(request, product_name, substitute_name):
         except FavoriteProduct.DoesNotExist:
             FavoriteProduct.objects.create(product=product, substitute=substitute, user_rel=user)
             messages.success(request, "Favori bien enregistré")
+            user_favorites = FavoriteProduct.objects.filter(user_rel=user)
+            if user_favorites:
+                for fav in user_favorites:
+                    products = [fav.product]
+                    random_product = Product.objects.get(productName=choice(products))
+                    random_image = random_product.imgURL
         return render(request, 'substitute_food/favorites.html', locals())
     else:
         return redirect('login')

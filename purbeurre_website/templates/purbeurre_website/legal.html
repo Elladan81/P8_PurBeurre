@@ -1,0 +1,47 @@
+{% extends "purbeurre_website/base.html" %}
+{% load static %}
+{% load search_extras %}
+{% block title %}
+    Pur Beurre - Mentions Légales
+{% endblock title %}
+
+{% block body %}
+
+    <body id="page-top">
+{% endblock body %}
+
+{% block menuTop %}
+    <a style="color: rgba(0, 0, 0, 0.7);" class="navbar-brand js-scroll-trigger"
+       href="{% url 'purbeurre_website:index' %}"> <img
+            src="{% static 'purbeurre_website/img/logo_pur_beurre-favicon.png' %}" alt="logo">
+        Pur Beurre</a>
+{% endblock menuTop %}
+
+{% block content %}
+    <section id="mentions">
+        <header class="masthead text-center text-white d-flex" id="product-header">
+            <div class="container">
+                <div class="row">
+                    <div class="mx-auto sproductname">
+                        <h1>Mentions légales</h1>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <hr class="my-5 bg-white">
+                    <h5 class="mb-4">Template bootstrap utilisé : <a
+                            href="https://startbootstrap.com/themes/creative/">Creative</a></h5>
+                    <h5 class="mb-4">Les données (images, noms, informations) des aliments proviennent de l'API <a
+                            href="https://fr.openfoodfacts.org/">OpenFoodFacts</a></h5>
+                    <h5 class="mb-4">Les autres images utilisée (page d'acceuil) sont la propriété de Disney &copy</h5>
+                    <h5 class="mb-4">Toute les autres ressources sont libre de droit</h5>
+
+                </div>
+            </div>
+        </header>
+    </section>
+    <div class="container">
+        <div class="row">
+            <h5 class="col-12 text-center mt-4">Site hébergé sur <a href="https://www.heroku.com/">Heroku</a></h5>
+        </div>
+    </div>
+{% endblock %}

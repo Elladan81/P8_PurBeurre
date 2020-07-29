@@ -59,8 +59,8 @@ body {
     display: block;
     position: absolute;
     top: 100px;
-    height: auto;
-    width: auto;
+    height: 10%;
+    margin-left: 10%;
+    width: 50%;
     z-index: 800;
-    margin: auto;
 }

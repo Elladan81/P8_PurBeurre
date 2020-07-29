@@ -80,14 +80,12 @@
 {% endblock nav %}
 
 <div id="content-main">
-
-    {% block content %}
-        <section class="messages" id="content-messages">
+    <section class="messages" id="content-messages">
         {% if messages %}
             {% for message in messages %}
                 {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert"></strong>Important
-                        :</strong>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Important :</strong>
                         {{ message }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
@@ -101,6 +99,8 @@
             {% endfor %}
         {% endif %}
     </section>
+    {% block content %}
+
     {% endblock %}
 </div>
 
@@ -123,9 +123,7 @@
 
 {% block footer %}
     <footer class="footer py-2 row mx-auto text-center">
-        <div class="col-3 mx-auto"><a href="#mentionslégales">Mentions légales</a>
-        </div>
-        <div class="col-3 mx-auto"><a href="#contact">Contact</a>
+        <div class="col-3 mx-auto"><a href="{% url 'purbeurre_website:legal' %}">Mentions légales</a>
         </div>
     </footer>
 {% endblock footer %}
