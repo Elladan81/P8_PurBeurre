@@ -4,11 +4,22 @@
 
 {% block title %}Create an account{% endblock %}
 {% block content %}
-<h1>Create an account</h1>
-<p>Please, sign up using the following form:</p>
-<form action="." method="post">
-    {{ user_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Create my account"></p>
-</form>
+    <header class="masthead text-center text-white d-flex">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-12 align-self-end">
+                    <h1 class="text-uppercase font-weight-bold">Créer un compte</h1>
+                    <hr class="divider my-4">
+                    <div class="col-lg-4 col-9 mx-auto">
+                        <p>Pour vous inscrire, merci de remplir ce formulaire :</p>
+                        <form action="." method="post">
+                            {{ user_form.as_p }}
+                            {% csrf_token %}
+                            <p><input type="submit" value="Create my account"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 {% endblock %}
