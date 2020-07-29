@@ -1,10 +1,12 @@
 # PurBeurre
 
-PurBeurre is a website application running on Django. The objective of the app is to purpose a database of products (linked with the OpenFoodFacts database) and to help users in finding a healthy substitute of a product.
+Welcome in my OpenClassrooms Project 8 !
+PurBeurre is a website application running on Django. 
+The objective of the app is to offer a database of products (linked with the OpenFoodFacts database) and to help users in finding a healthy substitute of a product.
 
 ## Prerequisites
 
-- Python 3.7.2
+- Python 3.7.2 + (python 3.8.5 here for security purpose)
 - Django 2.1+ (3.0.8 used for developpement)
 - PostGreSQL database with access to parameter in settings.py in the PurBeurre folder
 - All the other required modules are in the requirements.txt file to install before launching the app.
