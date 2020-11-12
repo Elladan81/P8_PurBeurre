@@ -11,9 +11,15 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import dj_database_url
-import django_heroku
 from django.contrib import staticfiles
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,19 +28,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('PURBEURRE_SECRET_KEY')
-POSTGRE_PASSWORD = os.environ.get('PURBEURRE_POSTGRE_PASSWORD')
+SECRET_KEY = env('PURBEURRE_SECRET_KEY')
+PURBEURRE_POSTGRE_PASSWORD = env('PURBEURRE_POSTGRE_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com', '*']
 
 # Application definition
 
 INSTALLED_APPS = [
     # my apps
-    'account.apps.AccountConfig',
+    'account',
     'purbeurre_website',
     'substitute_food',
     # third party apps
@@ -88,17 +94,13 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'OpenFoodFact2',
-        'USER': 'PurBeurre',
-        'PASSWORD': POSTGRE_PASSWORD,
-        'HOST': 'localhost',
+        'NAME': 'purbeurre_db',
+        'USER': 'postgres',
+        'PASSWORD': 'purbeurrepassword6432',
+        'HOST': 'purbeurre.cyw4albctm36.eu-west-3.rds.amazonaws.com',
         'PORT': '5432',
-        'CONN_MAX_AGE': 20,
     }
 }
-
-db_from_env = dj_database_url.config(conn_max_age=20)
-DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -155,6 +157,3 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())

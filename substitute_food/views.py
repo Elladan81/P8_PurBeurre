@@ -1,4 +1,4 @@
-from random import randint, random, choice
+from random import choice
 import requests
 from django.contrib import messages
 from django.contrib.admin.utils import unquote
@@ -65,7 +65,7 @@ def find_substitute(request, query, product_id):
     """Display the page of a product
 
         Arguments:
-            query {string} -- Original query for product
+            query {string} -- Original query
             product_id {string} -- Product to substitute
 
         Returns:
