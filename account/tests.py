@@ -20,22 +20,22 @@ class TestAuth(TestCase):
                                  password="test",
                                  email="test@test.com")
 
-    def test_create_account(self):
+    def test_register(self):
         """
         Test to create an account
         """
 
         self.client.post(
-            '/connexion', {"username": "test", "email": "test@test.com",
+            '/register/', {"username": "test", "email": "test@test.com",
                            "password": "test"}, follow=True)
-        assert (self.client.session['_auth_user_id'])
+        assert(self.client.session['_auth_user_id'])
 
     def test_logout(self):
         """
         Test to logout user
         """
         self.client.post(
-            '/deconnexion', follow=True
+            '/logout/', follow=True
         )
         self.assertRaises(
             KeyError, lambda: self.client.session['_auth_user_id'])
@@ -45,9 +45,9 @@ class TestAuth(TestCase):
         Test to login user
         """
         self.client.post(
-            '/connexion', {"username": "test", "password": "test",
-                           "connect": "true"}, follow=True)
-        assert (self.client.session['_auth_user_id'])
+            '/login/', {"username": "test", "password": "test",
+                        "connect": "true"}, follow=True)
+        assert(self.client.session['_auth_user_id'])
 
     def test_login_error(self):
         """
@@ -55,8 +55,8 @@ class TestAuth(TestCase):
         """
 
         self.client.post(
-            '/connexion', {"username": "test", "password": "testesfqsf",
-                           "connect": "true"}, follow=True)
+            '/login/', {"username": "test", "password": "testesfqsf",
+                        "connect": "true"}, follow=True)
         self.assertRaises(
             KeyError, lambda: self.client.session['_auth_user_id'])
 
@@ -64,18 +64,15 @@ class TestAuth(TestCase):
         """
         Test for email sending
         """
-        response = self.client.post('/password_reset/',
+        response = self.client.post('/password_reset_form/',
                                     {"email": "test@test.com"}, follow=True)
-        self.assertContains(response, "mot de passe")
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject,
-                         'PurBeurre Recuperation du mot de passe')
 
     def test_password_reset(self):
         """
         Test for email sending
         """
-        response = self.client.post('/password_reset/',
+        response = self.client.post('password_reset_done/',
                                     {"email": "test@test.com"}, follow=True)
         self.assertEqual(len(mail.outbox), 1)
         url = mail.outbox[0].body.split()[15]
@@ -92,6 +89,6 @@ class TestAuth(TestCase):
             follow=True)
         self.assertContains(response, "mot de passe à été réinitialisé")
         self.client.post(
-            '/connexion', {"username": "test", "password": "retest1234",
+            '/login/', {"username": "test", "password": "retest1234",
                            "connect": "true"}, follow=True)
         assert (self.client.session['_auth_user_id'])
