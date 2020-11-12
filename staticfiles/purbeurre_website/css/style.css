@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+}
+
+#content-main {
+    min-height: 100%;
+    margin-bottom: 70px;
+}
+
+.nutriscore {
+    z-index: 200;
+    top: -25px;
+    right: -10px;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    text-align: center;
+    text-shadow: black;
+    background-size: contain;
+    background-position: center;
+    color: white;
+    font: bold 20px/50px Arial;
+}
+
+.nutricolor-a{
+    background-color: darkgreen;
+}
+.nutricolor-b{
+    background-color: seagreen;
+}
+.nutricolor-c{
+    background-color: gold;
+}
+.nutricolor-d{
+    background-color: darkorange;
+}
+.nutricolor-e{
+    background-color: darkred;
+}
+
+#product-header {
+    height: 200px;
+}
+
+.footer {
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 50px;
+}
+
+.productImg{
+    height: 250px;
+    margin: auto;
+}
+
+.messages{
+    display: block;
+    position: absolute;
+    top: 100px;
+    height: 10%;
+    margin-left: 10%;
+    width: 50%;
+    z-index: 800;
+}
