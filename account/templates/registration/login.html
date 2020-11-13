@@ -1,7 +1,7 @@
 {% extends "purbeurre_website/base.html" %}
 {% load static %}
 
-{% block title %}Log-in{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
 <body id="page-top">
@@ -15,8 +15,8 @@
                     <hr class="divider my-4">
                     {%if form.errors %}
                         <p>
-                            Your username and password didn't match.
-                            Please try again.
+                            Votre nom d'utilisateur/mail et votre mot de passe ne correspondent pas.
+                        Veuillez recommencer.
                         </p>
                     {% else %}
                     <p class="text-white-75 font-weight-light mb-5">Utilisez ce formulaire pour vous connecter.</p>
