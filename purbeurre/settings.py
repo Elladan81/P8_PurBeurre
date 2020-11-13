@@ -35,7 +35,7 @@ PURBEURRE_POSTGRE_PASSWORD = env('PURBEURRE_POSTGRE_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com', '15.237.153.33', '*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com', '15.237.153.33', '*', ]
 
 ADMINS = [('Mickael', 'mickael.lalevee.dev@gmail.com'), ]
 
