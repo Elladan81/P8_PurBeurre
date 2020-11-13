@@ -1,6 +1,7 @@
 language: python
 python:
   - '3.6'
+  - '3.7'
 
 before_script:
   - pip install -r requirements.txt
@@ -11,4 +12,4 @@ services:
   - postgresql
 
 script:
-  - ./manage.py test
+  - python3 manage.py test
