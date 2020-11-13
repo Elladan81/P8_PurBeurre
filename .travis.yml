@@ -6,7 +6,7 @@ python:
 before_script:
   - pip install -r requirements.txt
 
-env: DJANGO_SETTINGS_MODULE="purbeurre.settings"
+env: DJANGO_SETTINGS_MODULE="purbeurre.travis"
 
 services:
   - postgresql
