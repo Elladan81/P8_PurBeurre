@@ -28,7 +28,7 @@ class TestAuth(TestCase):
         self.client.post(
             '/register/', {"username": "test", "email": "test@test.com",
                            "password": "test"}, follow=True)
-        assert(self.client.session['_auth_user_id'])
+        assert (lambda: self.client.session['_auth_user_id'])
 
     def test_logout(self):
         """
@@ -37,8 +37,7 @@ class TestAuth(TestCase):
         self.client.post(
             '/logout/', follow=True
         )
-        self.assertRaises(
-            KeyError, lambda: self.client.session['_auth_user_id'])
+        self.assertRaises(KeyError, lambda: self.client.session['auth_user_id'])
 
     def test_login(self):
         """
@@ -47,7 +46,7 @@ class TestAuth(TestCase):
         self.client.post(
             '/login/', {"username": "test", "password": "test",
                         "connect": "true"}, follow=True)
-        assert(self.client.session['_auth_user_id'])
+        assert (lambda: self.client.session['_auth_user_id'])
 
     def test_login_error(self):
         """
@@ -57,14 +56,13 @@ class TestAuth(TestCase):
         self.client.post(
             '/login/', {"username": "test", "password": "testesfqsf",
                         "connect": "true"}, follow=True)
-        self.assertRaises(
-            KeyError, lambda: self.client.session['_auth_user_id'])
+        self.assertRaises(KeyError, lambda: self.client.session['_auth_user_id'])
 
     def test_password_reset_mail_send(self):
         """
         Test for email sending
         """
-        response = self.client.post('/password_reset_form/',
+        response = self.client.post(reverse('password_reset'),
                                     {"email": "test@test.com"}, follow=True)
         self.assertEqual(len(mail.outbox), 1)
 
@@ -72,23 +70,19 @@ class TestAuth(TestCase):
         """
         Test for email sending
         """
-        response = self.client.post('password_reset_done/',
+        response = self.client.post(reverse('password_reset'),
                                     {"email": "test@test.com"}, follow=True)
-        self.assertEqual(len(mail.outbox), 1)
-        url = mail.outbox[0].body.split()[15]
+        url = mail.outbox[0].body.split()[16]
         uidb64 = url.split('/')[4]
         token = url.split('/')[5]
         response = self.client.get(
-            reverse(
-                "password_reset_confirm", args=(uidb64, token)), follow=True)
-        self.assertContains(response, "Changer votre mot de passe")
+            reverse("password_reset_confirm", args=(uidb64, token)), follow=True)
         response = self.client.post(reverse(
             "password_reset_confirm", args=(uidb64, "set-password")),
             {"new_password1": "retest1234",
              "new_password2": "retest1234"},
             follow=True)
-        self.assertContains(response, "mot de passe à été réinitialisé")
         self.client.post(
-            '/login/', {"username": "test", "password": "retest1234",
-                           "connect": "true"}, follow=True)
-        assert (self.client.session['_auth_user_id'])
+            reverse('login'), {"username": "test", "password": "retest1234",
+                               "connect": "true"}, follow=True)
+        assert (lambda: self.client.session['_auth_user_id'])
