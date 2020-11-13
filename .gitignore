@@ -1,3 +1,4 @@
 /venv/
 /.idea/
 /This_commit_update_directory.patch/
+/.env/
