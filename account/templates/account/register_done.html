@@ -1,13 +1,13 @@
 {% extends "purbeurre_website/base.html" %}
 
-{% block title %}Welcome{% endblock %}
+{% block title %}Bienvenue !{% endblock %}
 {% block content %}
     <header class="masthead text-center text-white d-flex">
         <div class="container my-auto">
             <div class="row">
                 <div class="col-lg-12 align-self-end">
-                    <h1>Welcome {{ new_user.first_name }}!</h1>
-                    <p>Your account has been successfully created. Now you can <a href="{% url 'login' %}">log in</a>.
+                    <h1>Bienvenue {{ new_user.first_name }} !</h1>
+                    <p>Votre compte a été créé. Maintenant vous pouvez vous <a href="{% url 'login' %}">connecter</a>.
                     </p>
                 </div>
             </div>

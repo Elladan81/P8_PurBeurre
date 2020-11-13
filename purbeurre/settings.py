@@ -35,7 +35,9 @@ PURBEURRE_POSTGRE_PASSWORD = env('PURBEURRE_POSTGRE_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com', '*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com', '15.237.153.33', '*']
+
+ADMINS = [('Mickael', 'mickael.lalevee.dev@gmail.com'), ]
 
 # Application definition
 
@@ -139,6 +141,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_files'), ]
 
 # my settings
 LOGIN_REDIRECT_URL = 'dashboard'
