@@ -45,4 +45,4 @@ class TestSearch(TestCase):
         response = client.post(
             '/find_substitute/Test/2', follow=True)
         self.assertEqual(
-            response.context['product_by_category']['categoryTest'][0], obj1)
+            response.context['product_by_category']["categoryTest"][0], obj1)
