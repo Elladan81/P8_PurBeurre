@@ -43,6 +43,6 @@ class TestSearch(TestCase):
         category.products.add(obj1)
         category.products.add(obj2)
         response = client.post(
-            '/find_substitute/Test2/2', follow=True)
+            '/find_substitute/Test/2', follow=True)
         self.assertEqual(
             response.context['product_by_category']['categoryTest'][0], obj1)

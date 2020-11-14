@@ -40,11 +40,11 @@
             </div>
         </div>
     </header>
-    {% if categories|length != 0 %}
+    {% if product_by_category.items|length != 0 %}
         <section class="texthead">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-10 mx-auto text-center">
+                    <div class="col-lg-12 mx-auto text-center">
                         <h2 class="mt-4">Vous pouvez remplacer cet aliment par :</h2>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 {% for category, substitutes in product_by_category.items %}
                     {% if substitutes|length != 0 %}
                         <div class="row">
-                            <div class="col-lg-10" style="margin-top: 20px;">
+                            <div class="col-lg-12" style="margin-top: 20px;">
                                 <h3 class="mb-6">{{ category }} :</h3>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                             </ul>
                             <div class="card-footer bg-white">
                                 <a href="{% url 'favorites_register' product.productName substitute.productName %}"
-                                    class="btn btn-product btn-info btn-block m-2"><span class="fas fa-floppy-o"></span>
+                                   class="btn btn-product btn-info btn-block m-2"><span class="fas fa-floppy-o"></span>
                                     Sauvegarder
                                 </a>
                             </div>
@@ -106,7 +106,7 @@
         <section class="texthead">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-10 mx-auto text-center">
+                    <div class="col-lg-12 mx-auto my-auto text-center">
                         <h2>Aucun substitut trouvé pour ce produit.</h2>
                     </div>
                 </div>
