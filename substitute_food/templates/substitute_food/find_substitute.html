@@ -40,7 +40,7 @@
             </div>
         </div>
     </header>
-    {% if products_by_category|dictLenght != 0 %}
+    {% if categories|length != 0 %}
         <section class="texthead">
             <div class="container">
                 <div class="row">
@@ -53,7 +53,7 @@
 
         <section class="products">
             <div class="container">
-                {% for category, substitutes in products_by_category.items %}
+                {% for category, substitutes in product_by_category.items %}
                     {% if substitutes|length != 0 %}
                         <div class="row">
                             <div class="col-lg-10" style="margin-top: 20px;">

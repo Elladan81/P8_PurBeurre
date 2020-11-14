@@ -12,32 +12,6 @@ from .models import Product, FavoriteProduct
 
 # Create your views here.
 
-def list_product_by_category(products, categories, exclude_product):
-    """Function used to list products by categories and for remove duplicates
-
-    Arguments:
-        products {list of Product} -- The list of products you want to order
-        categories {list of Category} -- The list of categories of your product
-        exclude_product {Product} -- The original product to exclude
-
-    Returns:
-        products_by_category {dict} -- The products ordered by categories and
-        nutriscores
-    """
-    product_already_listed = []
-    products_by_category = {}
-    for category in categories:
-        products = (products | category.products.exclude(
-            productName=exclude_product))
-        for product in product_already_listed:
-            products = products.exclude(productName=product)
-        for product in products:
-            product_already_listed.append(product.productName)
-        products_by_category[category.categoryName] = products.exclude(
-            id=exclude_product.id).order_by('nutriscore').distinct()[:9]
-    return products_by_category
-
-
 def search(request):
     """Display the page for product search
     Models:
@@ -49,7 +23,7 @@ def search(request):
     if query != "":
         try:
             products = Product.objects.annotate(search=SearchVector('productName', 'brands')).filter(
-                search=query).order_by('-nutriscore')[:18]
+                search=query).order_by('-nutriscore')[:21]
             if products:
                 random_product = Product.objects.get(productName=choice(products))
                 random_image = random_product.imgURL
@@ -75,11 +49,13 @@ def find_substitute(request, query, product_id):
     product_name = product.productName
     url = product.productURL
     img = product.imgURL
-    substitutes = Product.objects.filter(productName__search=query).order_by('nutriscore').exclude(productName=product)[
-                  :30]
-    categories = product.category_set.all()
-    products_by_category = list_product_by_category(
-        substitutes, categories, product)
+    product_by_category = {}
+    categories = product.category_set.all()[:9]
+    for cat in categories:
+        substitutes = Product.objects.annotate(search=SearchVector('productName')).filter(
+            search=query).filter(category=cat).order_by('nutriscore').exclude(productName=product)
+        if len(substitutes) > 0:
+            product_by_category[cat] = substitutes
     return render(request, 'substitute_food/find_substitute.html', locals())
 
 
