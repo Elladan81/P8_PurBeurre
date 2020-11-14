@@ -62,8 +62,6 @@ def find_substitute(request, query, product_id):
             product_by_category[cat] = filtered_substitutes
             for f in filtered_substitutes:
                 product_in_dict.append(f.id)
-            print(product_in_dict)
-    print(locals())
     return render(request, 'substitute_food/find_substitute.html', locals())
 
 
