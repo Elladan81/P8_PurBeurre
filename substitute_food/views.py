@@ -19,7 +19,7 @@ def search(request):
     Returns:
         template : "site/search.html"
     """
-    query = request.POST.get('product_name', '')
+    query = request.GET.get('product_name')
     if query != "":
         try:
             products = Product.objects.annotate(search=SearchVector('productName', 'brands')).filter(
@@ -62,6 +62,7 @@ def find_substitute(request, query, product_id):
             product_by_category[cat] = filtered_substitutes
             for f in filtered_substitutes:
                 product_in_dict.append(f.id)
+    print(locals())
     return render(request, 'substitute_food/find_substitute.html', locals())
 
 
@@ -177,7 +178,7 @@ def register_fav(request, product_name, substitute_name):
                     products = [fav.product]
                     random_product = Product.objects.get(productName=choice(products))
                     random_image = random_product.imgURL
-        return render(request, 'substitute_food/favorites.html', locals())
+        return redirect('favorites')
     else:
         return redirect('login')
 

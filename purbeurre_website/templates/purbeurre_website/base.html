@@ -46,7 +46,7 @@
                 <ul class="navbar-nav ml-auto row">
                     {% if user.is_authenticated %}
                         <li class="nav-item center">
-                            <form class="form-group col-10" action="{% url 'search' %}" method="post">
+                            <form class="form-group col-10" action="{% url 'search' %}" method="get">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery"

@@ -18,7 +18,7 @@
                 <div class="col-lg-6 col-9 mx-auto">
                     <p class="text-faded mb-6">Trouvez un produit de substitution pour un produit que vous consommez
                         tous les jours :</p>
-                    <form class="form-group" action="{% url 'search' %}" method="post">
+                    <form class="form-group" action="{% url 'search' %}" method="get">
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery" rows="1"
