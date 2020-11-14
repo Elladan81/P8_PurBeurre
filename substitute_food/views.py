@@ -50,12 +50,19 @@ def find_substitute(request, query, product_id):
     url = product.productURL
     img = product.imgURL
     product_by_category = {}
-    categories = product.category_set.all()[:9]
+    categories = product.category_set.all()[:6]
+    product_in_dict = []
     for cat in categories:
         substitutes = Product.objects.annotate(search=SearchVector('productName')).filter(
-            search=query).filter(category=cat).order_by('nutriscore').exclude(productName=product)
-        if len(substitutes) > 0:
-            product_by_category[cat] = substitutes
+            search=query).filter(category=cat).order_by('nutriscore').exclude(productName=product)[:9]
+        print(substitutes)
+        filtered_substitutes = [sub for sub in substitutes if sub.id not in product_in_dict]
+        print(filtered_substitutes)
+        if len(filtered_substitutes) > 0:
+            product_by_category[cat] = filtered_substitutes
+            for f in filtered_substitutes:
+                product_in_dict.append(f.id)
+            print(product_in_dict)
     return render(request, 'substitute_food/find_substitute.html', locals())
 
 
