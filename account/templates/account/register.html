@@ -13,10 +13,11 @@
                     <hr class="divider my-4">
                     <div class="col-lg-4 col-9 mx-auto">
                         <p>Pour vous inscrire, merci de remplir ce formulaire :</p>
-                        <form class="form-group text-white-75" action="." method="post">
+                        <form class="form-group text-white" action="." method="post">
                             {{ user_form|crispy }}
                             {% csrf_token %}
-                            <p><input class="input-group-addon btn btn-primary col-lg-5 col-5 mt-4 mx-auto" type="submit" value="Create my account"></p>
+                            <p><input class="input-group-addon btn btn-primary col-lg-6 m-2 mx-auto"
+                                      type="submit" value="Valider mon compte"></p>
                         </form>
                     </div>
                 </div>
