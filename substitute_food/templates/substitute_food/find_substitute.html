@@ -8,7 +8,7 @@
     {% if product != null %}
         Pur Beurre - Recherche : {{ product.productName }}
     {% else %}
-        Pur Beurre - Recherche : {{ request.POST.product_name }}
+        Pur Beurre - Recherche : {{ product.productName }}
     {% endif %}
 
 {% endblock title %}
@@ -26,7 +26,7 @@
 {% endblock menuTop %}
 
 {% block content %}
-    <header class="text-center text-white d-flex" style="background-image: url('{{ img }}')" id="product-header">
+    <header class="text-center text-white d-flex" style="background-image: url('{{ product.imgURL }}')" id="product-header">
         <div class="container my-auto">
             <div class="row">
                 <div class="col-lg-10 mx-auto sproductname">
