@@ -47,4 +47,4 @@ class TestSearch(TestCase):
         self.assertEqual(
             response.context['product_by_category']["categoryTest"][0], obj1)
         self.assertNotContains(
-            response.context['product_by_category']["categoryTest"][0], obj2)
+            response.context['product_by_category']["categoryTest"], obj2)

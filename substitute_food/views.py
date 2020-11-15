@@ -43,7 +43,7 @@ def find_substitute(request, query, product_id):
     for cat in categories:
         substitutes = Product.objects.annotate(search=SearchVector('product_name', 'brands')).filter(
             search=query).filter(category=cat).order_by('nutriscore').exclude(product_name=product)[:9]
-        if substitutes.count() < 3:
+        if substitutes.count() == 0:
             substitutes = Product.objects.filter(category=cat).order_by('nutriscore').exclude(product_name=product)[:9]
         filtered_substitutes = [sub for sub in substitutes if sub.id not in product_in_dict]
         if len(filtered_substitutes) > 0:
