@@ -12,8 +12,7 @@ from .models import Product, FavoriteProduct
 
 # Create your views here.
 def search(request):
-    """Display the page for product search
-    """
+    """Display the page for product search"""
     query = request.GET.get('product_name')
     if query != "":
         try:
@@ -32,8 +31,7 @@ def search(request):
 
 
 def find_substitute(request, query, product_id):
-    """Display the page of a product
-        """
+    """Display the page of a product"""
     product = Product.objects.get(id=product_id)
     product_by_category = {}
     categories = product.category_set.all()[:6]
@@ -54,8 +52,7 @@ def find_substitute(request, query, product_id):
 
 
 def product_info(request, product_id):
-    """Display the page of a product
-    """
+    """Display the page of a product"""
     product = Product.objects.get(id=product_id)
     resp = requests.get("https://fr.openfoodfacts.org/api/v0/produit/" + product.product_url.split("/")[4] + ".json")
     data = resp.json()
@@ -64,30 +61,32 @@ def product_info(request, product_id):
 
 
 def product_substitute_info(request, product_id, substitute_id):
-    """Display the page of a product from a substitute search
-    """
+    """Display the page of a product from a substitute search"""
     product = Product.objects.get(id=product_id)
     substitute = Product.objects.get(id=substitute_id)
-    data = requests.get("https://fr.openfoodfacts.org/api/v0/produit/"+ substitute.product_url.split("/")[4] + ".json").json()
+    data = requests.get(
+        "https://fr.openfoodfacts.org/api/v0/produit/" + substitute.product_url.split("/")[4] + ".json").json()
     nutri_img = data['product']["image_nutrition_url"]
     return render(request, 'substitute_food/product.html', locals())
 
 
 @login_required
 def favorites(request):
-    """Display user's favorites
-    """
+    """Display user's favorites"""
     user = request.user
     user_favorites = FavoriteProduct.objects.filter(user_rel=user).order_by('-created')
-    if user_favorites:
+    if user_favorites.count() != 0:
         random_image = Product.objects.get(id=choice([p.product.id for p in user_favorites])).img_url
-    return render(request, 'substitute_food/favorites.html', locals())
+        return render(request, 'substitute_food/favorites.html',
+                      {"user_favorites": user_favorites, "random_image": random_image})
+    else:
+        messages.warning(request, "Vous n'avez pas encore de produit enregistré dans vos favoris")
+    return redirect('purbeurre_website:index')
 
 
 @login_required
 def register_fav(request, product_id, substitute_id):
-    """View used to register a favorite in user profile
-    """
+    """View used to register a favorite in user profile"""
     product = Product.objects.get(id=product_id)
     substitute = Product.objects.get(id=substitute_id)
     fav_reg = FavoriteProduct.objects.get_or_create(product=product, substitute=substitute, user_rel=request.user)
@@ -100,8 +99,7 @@ def register_fav(request, product_id, substitute_id):
 
 @login_required
 def remove_fav(request, product_id, substitute_id):
-    """View used to remove a favorite in user_favorites
-    """
+    """View used to remove a favorite in user_favorites"""
     product = Product.objects.get(id=product_id)
     substitute = Product.objects.get(id=substitute_id)
     try:
@@ -114,19 +112,15 @@ def remove_fav(request, product_id, substitute_id):
     return redirect('favorites')
 
 
+@login_required
 def fill_view(request):
-    """View used to show the progress of database filling
-    """
+    """View used to show the progress of database filling"""
     return render(request, 'admin/fill.html', locals())
 
 
+@login_required
 def fill_data(request):
-    """View used with AJAX to keep progress of database fill
-    It can be accessed in template with that view
-    But it will only be used on admin templates
-    Returns:
-        template : "admin/base_site.html"
-    """
+    """View used with AJAX to keep progress of database fill"""
     page = request.GET.get('page', None)
     fill_thread = fill(page)
     fill_thread.start()
@@ -137,19 +131,15 @@ def fill_data(request):
     return JsonResponse(data)
 
 
+@login_required
 def fill_success(request):
-    """View used to return the success of database fill
-    """
+    """View used to return the success of database fill"""
     messages.success(request, "Base de donnée remplie avec succès !")
     return render(request, 'admin/fill.html')
 
 
+@login_required
 def del_data(request):
-    """View used to launch the database delete function
-    It can be accessed in template with that view
-    But it will only be used on admin templates
-    Returns:
-        template : "admin/base_site.html"
-    """
+    """View used to launch the database delete function"""
     delete_db()
     return redirect('/admin/')
