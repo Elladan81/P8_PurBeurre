@@ -91,10 +91,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-9 mx-auto">
-                    <p class="text-faded mt-5">Trouvez un produit de substitution pour un produit que vous consommez
+                <div class="col-12">
+                    <p class="text-center mt-5">Trouvez un produit de substitution pour un produit que vous consommez
                         tous les jours :</p>
-                    <form class="form-group" action="{% url 'search' %}" method="post">
+                    <form class="form-group" action="{% url 'search' %}" method="get">
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery" rows="1"
