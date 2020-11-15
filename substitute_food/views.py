@@ -11,7 +11,6 @@ from .models import Product, FavoriteProduct
 
 
 # Create your views here.
-@login_required
 def search(request):
     """Display the page for product search
     """
@@ -32,7 +31,6 @@ def search(request):
         return redirect('purbeurre_website:index')
 
 
-@login_required
 def find_substitute(request, query, product_id):
     """Display the page of a product
         """
@@ -43,20 +41,18 @@ def find_substitute(request, query, product_id):
     for cat in categories:
         substitutes = Product.objects.annotate(search=SearchVector('product_name', 'brands')).filter(
             search=query).filter(category=cat).order_by('nutriscore').exclude(product_name=product)[:9]
-        if substitutes.count() == 0:
+        if substitutes.count() < 3:
             substitutes = Product.objects.filter(category=cat).order_by('nutriscore').exclude(product_name=product)[:9]
         filtered_substitutes = [sub for sub in substitutes if sub.id not in product_in_dict]
         if len(filtered_substitutes) > 0:
             product_by_category[cat.category_name] = filtered_substitutes
             for f in filtered_substitutes:
                 product_in_dict.append(f.id)
-    print(product_by_category)
-    return render(request, 'substitute_food/find_substitute.html', {'product': product,
-                                                                    'categories': categories,
-                                                                    'product_by_category': product_by_category})
+    return render(request, 'substitute_food/find_substitute.html', {"product": product,
+                                                                    "categories": categories,
+                                                                    "product_by_category": product_by_category})
 
 
-@login_required
 def product_info(request, product_id):
     """Display the page of a product
     """
@@ -67,7 +63,6 @@ def product_info(request, product_id):
     return render(request, 'substitute_food/product.html', locals())
 
 
-@login_required
 def product_substitute_info(request, product_id, substitute_id):
     """Display the page of a product from a substitute search
     """

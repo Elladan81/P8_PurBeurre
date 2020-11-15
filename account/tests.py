@@ -14,7 +14,6 @@ class TestAuth(TestCase):
     def setUp(self):
         """The set up for tests
         """
-
         self.client = Client()
         User.objects.create_user(username="test",
                                  password="test",
@@ -25,8 +24,7 @@ class TestAuth(TestCase):
         Test to create an account
         """
 
-        self.client.post(
-            '/register/', {"username": "test", "email": "test@test.com",
+        self.client.post('/register/', {"username": "test", "email": "test@test.com",
                            "password": "test"}, follow=True)
         assert (lambda: self.client.session['_auth_user_id'])
 
@@ -43,8 +41,7 @@ class TestAuth(TestCase):
         """
         Test to login user
         """
-        self.client.post(
-            '/login/', {"username": "test", "password": "test",
+        self.client.post('/login/', {"username": "test", "password": "test",
                         "connect": "true"}, follow=True)
         assert (lambda: self.client.session['_auth_user_id'])
 
