@@ -13,20 +13,23 @@
         <div class="container my-auto">
             <div class="row">
                 <div class="col-lg-12 mx-auto">
-                    <h1 class="text-uppercase m-2"><strong>Du gras, oui. Mais de qualité !</strong></h1>
+                    <h1 class="text-uppercase m-2"><strong>Du gras, oui. </strong></h1>
+                    <h1 class="text-uppercase m-2"><strong>Mais de qualité !</strong></h1>
                 </div>
-                <div class="col-lg-6 col-9 mx-auto">
+                <div class="col-lg-9 mx-auto">
                     <p class="text-faded mb-6">Trouvez un produit de substitution pour un produit que vous consommez
                         tous les jours :</p>
-                    <form class="form-group" action="{% url 'search' %}" method="get">
+                    <form class="form-group col-9 mx-auto" action="{% url 'search' %}" method="get">
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" name="product_name" class="mx-auto col-lg-7 col-7 txtQuery" rows="1"
-                                   placeholder="Recherche...">
+                                   placeholder="Purée de pomme de terre...">
                             <input type="submit" class="input-group-addon btn btn-primary col-lg-5 col-5 mx-auto"
                                    value="Rechercher">
                         </div>
                     </form>
+                    <small class="text-white-75 col-6">Nous consommons chaque jour des produits qui ne sont pas nécessairement bons pour notre santé.
+                        Grâce à notre moteur de recherche, nous vous proposons des produits équivalents de meilleure qualité.</small>
                 </div>
             </div>
         </div>
