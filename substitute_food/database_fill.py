@@ -71,7 +71,7 @@ class fill(Thread):
                             if '/' in product['product_name']:
                                 p_name = p_name.replace('/', '-')
                             productobj = Product.objects.get(
-                                productName=p_name)
+                                product_name=p_name)
                             if productobj.productURL is None:
                                 productobj.productURL = (
                                     product["image_front_url"])
@@ -80,21 +80,21 @@ class fill(Thread):
                             if '/' in product['product_name']:
                                 p_name = p_name.replace('/', '-')
                             productobj = Product.objects.create(
-                                productName=p_name,
+                                product_name=p_name,
                                 shops=product['stores'],
                                 brands=product['brands'],
-                                productURL=product['url'],
+                                product_url=product['url'],
                                 nutriscore=product['nutrition_grades'],
-                                imgURL=product['image_front_url'])
+                                img_url=product['image_front_url'])
                             for category in product['categories'].split(','):
                                 # SQL request to register a Category
                                 try:
                                     cat = Category.objects.get(
-                                        categoryName=category).products.add(
+                                        category_name=category).products.add(
                                         productobj)
                                 except Category.DoesNotExist:
                                     cat = Category.objects.create(
-                                        categoryName=category)
+                                        category_name=category)
                                     cat.products.add(
                                         productobj)
                 except KeyError:
