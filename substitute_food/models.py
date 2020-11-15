@@ -20,20 +20,19 @@ class Product(models.Model):
     Returns:
         {string} -- The name of the product
     """
-    productName = models.CharField(max_length=100, unique=True)
+    product_name = models.CharField(max_length=100, unique=True)
     shops = models.TextField(null=False)
     brands = models.TextField(null=False)
-    productURL = models.URLField(verbose_name="URL du produit", unique=True)
+    product_url = models.URLField(verbose_name="URL du produit", unique=True)
     nutriscore = models.CharField(max_length=1)
-    imgURL = models.URLField(
-        verbose_name="URL de l'image du produit", null=True)
+    img_url = models.URLField(verbose_name="URL de l'image du produit", null=True)
 
     def __str__(self):
-        return self.productName
+        return self.product_name
 
     class Meta:
         verbose_name = "Produit"
-        ordering = ['productName']
+        ordering = ['product_name']
 
 
 class Category(models.Model):
@@ -47,15 +46,15 @@ class Category(models.Model):
     Returns:
         {string} -- The name of the category
     """
-    categoryName = models.CharField(max_length=150, unique=True)
+    category_name = models.CharField(max_length=150, unique=True)
     products = models.ManyToManyField('Product')
 
     def __str__(self):
-        return self.categoryName
+        return self.category_name
 
     class Meta:
         verbose_name = "Catégorie"
-        ordering = ['categoryName']
+        ordering = ['category_name']
 
 
 class FavoriteProduct(models.Model):

@@ -6,9 +6,9 @@
 {% block title %}
 
     {% if product != null %}
-        Pur Beurre - Recherche : {{ product.productName }}
+        Pur Beurre - Recherche : {{ product.product_name }}
     {% else %}
-        Pur Beurre - Recherche : {{ product.productName }}
+        Pur Beurre - Recherche : {{ product.product_name }}
     {% endif %}
 
 {% endblock title %}
@@ -26,7 +26,7 @@
 {% endblock menuTop %}
 
 {% block content %}
-    <header class="text-center text-white d-flex" style="background-image: url('{{ product.imgURL }}')" id="product-header">
+    <header class="text-center text-white d-flex" style="background-image: url('{{ product.img_url }}')" id="product-header">
         <div class="container my-auto">
             <div class="row">
                 <div class="col-lg-10 mx-auto sproductname">
@@ -72,11 +72,11 @@
                             <div class="card-body">
                                 <h4 class="card-title text-center">
                                     <a class="subName"
-                                       href="{% url 'substitute_product' product.productName substitute.productName %}"
-                                       title="{{ substitute }}">{{ substitute }}</a></h4>
-                                {% if substitute.imgURL != None %}
+                                       href="{% url 'substitute_product' product.id substitute.id %}"
+                                       title="{{ substitute.product_name }}">{{ substitute.product_name }}</a></h4>
+                                {% if substitute.img_url != None %}
                                     <img class="img-thumbnail mx-auto my-auto d-block productImg m-4"
-                                         src="{{ substitute.imgURL }}">
+                                         src="{{ substitute.img_url }}">
                                 {% endif %}
                             </div>
                             <ul class="list-group list-group-flush">
@@ -86,7 +86,7 @@
                                     : {{ substitute.shops|title|default:"Non précisé"|truncatewords:4 }}</li>
                             </ul>
                             <div class="card-footer bg-white">
-                                <a href="{% url 'favorites_register' product.productName substitute.productName %}"
+                                <a href="{% url 'favorites_register' product.id substitute.id %}"
                                    class="btn btn-product btn-info btn-block m-2"><span class="fas fa-floppy-o"></span>
                                     Sauvegarder
                                 </a>

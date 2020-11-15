@@ -9,6 +9,6 @@ admin.site.register(FavoriteProduct)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('productName', 'shops', 'brands', 'nutriscore')
-    list_filter = ('productName', 'shops', 'brands', 'nutriscore')
-    search_fields = ('productName', 'shops', 'brands', 'nutriscore')
+    list_display = ('product_name', 'shops', 'brands', 'nutriscore')
+    list_filter = ('product_name', 'shops', 'brands', 'nutriscore')
+    search_fields = ('product_name', 'shops', 'brands', 'nutriscore')

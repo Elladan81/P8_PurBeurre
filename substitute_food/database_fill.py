@@ -24,8 +24,7 @@ def json_products_list(page_number):
         data {json} -- The json object that contains OpenFoodFacts data
     """
 
-    url_fr = "https://fr.openfoodfacts.org/country/france/{0}.json".format(
-        page_number)
+    url_fr = f"https://fr.openfoodfacts.org/country/france/{page_number}.json"
 
     response = requests.get(url_fr)
     data = response.json()
