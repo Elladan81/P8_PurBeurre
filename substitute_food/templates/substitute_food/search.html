@@ -27,7 +27,6 @@
 {% endblock menuTop %}
 
 {% block content %}
-
     {% if products %}
         {% if random_image %}
             <header class="text-center text-white d-flex" style="background-image: url({{ random_image }})"
@@ -38,7 +37,7 @@
     <div class="container my-auto">
         <div class="row">
             <div class="col-lg-10 mx-auto sproductname">
-                <h1><strong>Vous recherchez peut-être :</strong></h1>
+                <h1><strong>Quel produit souhaitez-vous remplacer ?</strong></h1>
             </div>
         </div>
     </div>
@@ -54,12 +53,12 @@
                 </div>
                 <div class="card-body">
                     <h4 class="card-title text-center"><a
-                            href="{% url 'product' product.productName %}"
+                            href="{% url 'product' product.id %}"
                             class="subName"
-                            title="{{ product }}">{{ product }}</a></h4>
-                    {% if product.imgURL != None %}
+                            title="{{ product.product_name }}">{{ product.product_name }}</a></h4>
+                    {% if product.img_url != None %}
                         <img class="img-thumbnail mx-auto my-auto d-block productImg m-4"
-                             src="{{ product.imgURL }}">
+                             src="{{ product.img_url }}">
                     {% endif %}
                 </div>
                 <ul class="list-group list-group-flush">

@@ -24,27 +24,27 @@
 
 {% block content %}
     <header class="masthead text-center text-white d-flex">
-        <div class="container my-auto">
+        <div class="container">
             {% if substitute %}
                 <div class="row">
                     <div class="col-lg-5 my-auto mx-auto">
                         <h1>
-                            <strong class="subName favName" title="{{ substitute }}">{{ substitute }}</strong>
+                            <strong class="subName favName" title="{{ substitute.product_name }}">{{ substitute.product_name }}</strong>
                         </h1>
                         <div class="sproductimg">
-                            <img class="img-fluid col-10 m-4" src="{{ substitute.imgURL }}" alt="Product Image">
+                            <img class="img-fluid col-10 m-4" src="{{ substitute.img_url }}" alt="Product Image">
                             <div class="col-lg-10 mx-auto text-center">
-                                <h3>Nutriscore : <span class=" text-uppercase"> {{ product.nutriscore }} </span></h3>
+                                <h3>Nutriscore : <span class=" text-uppercase"> {{ substitute.nutriscore }} </span></h3>
                             </div>
                         </div>
                     </div>
                     <p class="col-lg-2 my-auto mx-auto" style="font-size:30px; margin-top:20%;">remplace</p>
                     <div class="col-lg-5 my-auto mx-auto">
                         <h1>
-                            <strong class="subName favName" title="{{ product }}">{{ product }}</strong>
+                            <strong class="subName favName" title="{{ product.product_name }}">{{ product.product_name }}</strong>
                         </h1>
                         <div class="sproductimg">
-                            <img class=" img-fluid col-10 m-4" src="{{ product.imgURL }}" alt="Substitute image">
+                            <img class=" img-fluid col-10 m-4" src="{{ product.img_url }}" alt="Substitute image">
                             <div class="col-lg-10 mx-auto text-center">
                                 <h3>
                                     Nutriscore : <span class=" text-uppercase"> {{ product.nutriscore }} </span>
@@ -55,20 +55,20 @@
                 </div>
                 <div class="row" style="padding-top:20px;">
                     <div class="col">
-                        <a href="{% url 'favorites_register' product.productName substitute.productName %}"
+                        <a href="{% url 'favorites_register' product.id substitute.id %}"
                            class="btn btn-info btn-block"><span class='fas fa-floppy-o'></span>
-                            Sauvegarder ce produit comme substitut de {{ product }}</a>
+                            Sauvegarder ce produit comme substitut de {{ product.product_name }}</a>
                     </div>
                 </div>
             {% else %}
                 <div class="row">
                     <div class="col-lg-10 mx-auto sproductname">
                         <h1>
-                            <strong class="">{{ product }}</strong>
+                            <strong class="">{{ product.product_name }}</strong>
                         </h1>
                     </div>
                     <div class="col-12 sproductimg">
-                        <img class="img-fluid mx-auto m-2" src="{{ product.imgURL }}">
+                        <img class="img-fluid mx-auto m-2" src="{{ product.img_url }}">
                     </div>
                 </div>
             {% endif %}
@@ -92,13 +92,12 @@
                     <img class="img-fluid rounded m-2" src="{{ nutri_img }}" alt="Values for 100g">
                 </div>
             </div>
-
             <div class="row h-100">
                 <div class="col-lg-5 mx-auto mt-4">
                     {% if substitute %}
-                        <a href="{{ substitute.productURL }}">
+                        <a href="{{ substitute.product_url }}">
                     {% else %}
-                        <a href="{{ product.productURL }}">
+                        <a href="{{ product.product_url }}">
                     {% endif %}
                     <h3 class="text-center">Lien vers la page du produit sur OpenFoodFact</h3>
                     </a>
