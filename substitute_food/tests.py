@@ -11,8 +11,8 @@ class ProductModelTest(TestCase):
         """
         Test the return of the product model
         """
-        product = Product(productName="Pizza")
-        self.assertEqual(str(product), product.productName)
+        product = Product(product_name="Pizza")
+        self.assertEqual(str(product), product.product_name)
 
 
 class TestSearch(TestCase):
@@ -25,7 +25,7 @@ class TestSearch(TestCase):
         Test one object search
         """
         client = Client()
-        Product.objects.create(productName="Test")
+        Product.objects.create(product_name="Test")
         response = client.post(
             '/search/', {"product_name": "Test"}, follow=True)
         self.assertContains(response, "Test")
@@ -36,13 +36,15 @@ class TestSearch(TestCase):
         """
         client = Client()
         obj1 = Product.objects.create(
-            productName="Test", productURL="http://test.com")
+            product_name="Test", product_url="http://test.com")
         obj2 = Product.objects.create(
-            productName="Test2", productURL="http://test2.com")
-        category = Category.objects.create(categoryName="categoryTest")
+            product_name="Test2", product_url="http://test2.com")
+        category = Category.objects.create(category_name="categoryTest")
         category.products.add(obj1)
         category.products.add(obj2)
         response = client.post(
             '/find_substitute/test/' + str(obj2.id) + '/', follow=True)
         self.assertEqual(
             response.context['product_by_category']["categoryTest"][0], obj1)
+        self.assertNotContains(
+            response.context['product_by_category']["categoryTest"][0], obj2)
