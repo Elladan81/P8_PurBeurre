@@ -9,6 +9,8 @@ from threading import Thread
 import requests
 
 from .models import Product, Category, FavoriteProduct, Stores
+from googletrans import Translator
+
 
 
 # Initialisation
@@ -81,7 +83,9 @@ class fill(Thread):
                                 img_url=product['image_front_url'])
                             for category in product['categories'].split(','):
                                 # SQL request storing Categories
-                                cat_name = str(category).lower().title()
+                                translator = Translator()
+                                raw_name = translator.translate(str(category), dest='fr')
+                                cat_name = str(raw_name.text).lower().title()
                                 try:
                                     cat = Category.objects.get(
                                         category_name=cat_name)
