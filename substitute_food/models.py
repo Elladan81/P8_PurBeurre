@@ -21,7 +21,6 @@ class Product(models.Model):
         {string} -- The name of the product
     """
     product_name = models.CharField(max_length=100, unique=True)
-    shops = models.TextField(null=False)
     brands = models.TextField(null=False)
     product_url = models.URLField(verbose_name="URL du produit", unique=True)
     nutriscore = models.CharField(max_length=1)
@@ -35,19 +34,24 @@ class Product(models.Model):
         ordering = ['product_name']
 
 
+class Stores(models.Model):
+    """ Store stores for product"""
+    store_name = models.CharField(max_length=200, unique=True)
+    products = models.ManyToManyField('Product', related_name='in_store')
+
+    def __str__(self):
+        return self.store_name
+
+    class Meta:
+        verbose_name = "Magasin"
+        ordering = ['store_name']
+
+
 class Category(models.Model):
     """Store a category
-    The category is unique
-
-    Fields:
-        categoryName {CharField} -- The name of the category (max_lenght=150)
-        products {Product ManyToManyField} -- The products in the category
-
-    Returns:
-        {string} -- The name of the category
     """
     category_name = models.CharField(max_length=150, unique=True)
-    products = models.ManyToManyField('Product')
+    products = models.ManyToManyField('Product', related_name='in_cat')
 
     def __str__(self):
         return self.category_name
@@ -83,4 +87,3 @@ class FavoriteProduct(models.Model):
         verbose_name = "Favori"
         verbose_name_plural = "Favoris"
         ordering = ['product']
-
