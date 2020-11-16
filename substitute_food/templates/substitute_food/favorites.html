@@ -37,51 +37,56 @@
 <section class="products">
     {% if user_favorites %}
         <div class="container">
-            <div class="card-deck">
-                {% for favorite in user_favorites %}
-                    {% if forloop.counter0|divisibleby:3 %}
-                        <div class="row">
-                    {% endif %}
-                <div class="card m-4 text-center">
-                    <div class="nutriscore nutricolor-{{ favorite.substitute.nutriscore }} text-uppercase">
-                        {{ favorite.substitute.nutriscore }}
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a class="subName"
-                               href="{% url 'product' favorite.substitute.id %}">{{ favorite.substitute.product_name }}</a>
-                        </h4>
-                        <h6 class="card-title">Remplace :</h6>
-                        <h6 class="card-title">
-                            <a class="subName"
-                               href="{% url 'product' favorite.product.id %}"
-                               title="{{ favorite.product.product_name }}">
-                                {{ favorite.product }}</a> au nutriscore <span class="text-uppercase">
-                                    {{ favorite.product.nutriscore }}</span>
-                        </h6>
-                        {% if favorite.substitute.img_url != None %}
-                            <img class="img-thumbnail mx-auto my-auto d-block productImg m-4"
-                                 src="{{ favorite.substitute.img_url }}">
-                        {% endif %}
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Marque
-                            : {{ favorite.substitute.brands|title|default:"Non précisé"|truncatewords:4 }}</li>
-                        <li class="list-group-item">Magasin
-                            : {{ favorite.substitute.shops|title|default:"Non précisé"|truncatewords:4 }}</li>
-                    </ul>
-                    <div class="card-footer bg-white">
-                        <a href="{% url 'favorites_remove' favorite.product.id favorite.substitute.id %}"
-                           class="btn btn-info btn-block" value="">
-                            <span class='fas fa-times'></span> Supprimer ce favori</a></div>
-                    <small>Favori enregistré le {{ favorite.created }}</small>
-                </div>
-                {% if forloop.counter|divisibleby:3 or forloop.last %}
-                    </div><!-- row closing -->
-                    <hr class="divider my-4">
+            {% for favorite in user_favorites %}
+                {% if forloop.counter0|divisibleby:3 %}
+                    <div class="card-deck">
+                    <div class="row col-12">
                 {% endif %}
-                {% endfor %}
+            <div class="card col-4 m-4 text-center">
+                <div class="nutriscore nutricolor-{{ favorite.substitute.nutriscore }} text-uppercase">
+                    {{ favorite.substitute.nutriscore }}
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a class="subName"
+                           href="{% url 'product' favorite.substitute.id %}">{{ favorite.substitute.product_name }}</a>
+                    </h4>
+                    <h6 class="card-title">Remplace :</h6>
+                    <h6 class="card-title">
+                        <a class="subName"
+                           href="{% url 'product' favorite.product.id %}"
+                           title="{{ favorite.product.product_name }}">
+                            {{ favorite.product }}</a> au nutriscore <span class="text-uppercase">
+                                    {{ favorite.product.nutriscore }}</span>
+                    </h6>
+                    {% if favorite.substitute.img_url != None %}
+                        <img class="img-thumbnail mx-auto my-auto d-block productImg m-4"
+                             src="{{ favorite.substitute.img_url }}">
+                    {% endif %}
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Marque
+                        : {{ favorite.substitute.brands|title|default:"Non précisé" }}</li>
+                    <li class="list-group-item">Magasin :
+                        {% for store in product.in_store.all %}
+                            {{ store|default:"Non précisé" }}
+                            {% if forloop.revcounter > 1 %}, {% else %}{% endif %}
+                        {% endfor %}</li>
+                </ul>
+                <div class="card-footer bg-white">
+                    <a href="{% url 'favorites_remove' favorite.product.id favorite.substitute.id %}"
+                       class="btn btn-info btn-block" value="">
+                        <span class='fas fa-times'></span> Supprimer ce favori</a></div>
+                <small>Favori enregistré le {{ favorite.created }}</small>
             </div>
+
+            {% if forloop.counter|divisibleby:3 or forloop.last %}
+                </div>
+                </div><!-- row closing -->
+                <hr class="divider my-4">
+            {% endif %}
+            {% endfor %}
+
         </div>
     {% else %}
         <div class="container">

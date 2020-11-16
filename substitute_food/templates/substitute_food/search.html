@@ -32,7 +32,7 @@
             <header class="text-center text-white d-flex" style="background-image: url({{ random_img }})"
                     id="product-header">
         {% else %}
-             <header class="text-center text-white bg-dark d-flex" id="product-header">
+            <header class="text-center text-white bg-dark d-flex" id="product-header">
         {% endif %}
     <div class="container my-auto">
         <div class="row">
@@ -47,7 +47,7 @@
                 {% if forloop.counter0|divisibleby:3 %}
                     <div class="card-deck">
                     <div class="row col-12"> {% endif %}
-            <div class="card col-4 card m-4 text-center">
+            <div class="card col-4 m-4 text-center">
                 <div class="nutriscore nutricolor-{{ product.nutriscore }} text-center text-uppercase">
                     {{ product.nutriscore }}
                 </div>
@@ -63,7 +63,11 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Marque : {{ product.brands|title|default:"Non précisé" }}</li>
-                    <li class="list-group-item">Magasin : {{ product.shops|default:"Non précisé" }}</li>
+                    <li class="list-group-item">Magasin :
+                        {% for store in product.in_store.all %}
+                        {{ store|default:"Non précisé" }}
+                        {% if forloop.revcounter > 1 %}, {% else %}{% endif %}
+                    {% endfor %}</li>
                 </ul>
                 <div class="card-footer bg-white">
                     <div class="input-group">
@@ -88,14 +92,12 @@
                 <div class="row">
                     <div class="col-lg-10 mx-auto" style="padding-bottom:32vh;">
                         <h1>
-                            <strong class="sproductname">Aucun produit n'a été trouvé
+                            <strong class="sproductname">Aucun produit n'a été trouvé.
                                 ¯\_(ツ)_/¯</strong>
                         </h1>
-                    </div>
-                    <div class="col-lg-10 mx-auto">
-                        <h1>
-                            <strong class="sproductname"></strong>
-                        </h1>
+                        <h5>
+                            <a href="{% url 'purbeurre_website:index' %}">Faire une nouvelle recherche.</a>
+                        </h5>
                     </div>
                 </div>
             </div>

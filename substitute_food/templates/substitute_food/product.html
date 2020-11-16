@@ -23,86 +23,77 @@
 {% endblock menuTop %}
 
 {% block content %}
-    <header class="masthead text-center text-white d-flex">
-        <div class="container">
-            {% if substitute %}
-                <div class="row">
-                    <div class="col-lg-5 my-auto mx-auto">
-                        <h1>
-                            <strong class="subName favName" title="{{ substitute.product_name }}">{{ substitute.product_name }}</strong>
-                        </h1>
-                        <div class="sproductimg">
-                            <img class="img-fluid col-10 m-4" src="{{ substitute.img_url }}" alt="Product Image">
-                            <div class="col-lg-10 mx-auto text-center">
-                                <h3>Nutriscore : <span class=" text-uppercase"> {{ substitute.nutriscore }} </span></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="col-lg-2 my-auto mx-auto" style="font-size:30px; margin-top:20%;">remplace</p>
-                    <div class="col-lg-5 my-auto mx-auto">
-                        <h1>
-                            <strong class="subName favName" title="{{ product.product_name }}">{{ product.product_name }}</strong>
-                        </h1>
-                        <div class="sproductimg">
-                            <img class=" img-fluid col-10 m-4" src="{{ product.img_url }}" alt="Substitute image">
-                            <div class="col-lg-10 mx-auto text-center">
-                                <h3>
-                                    Nutriscore : <span class=" text-uppercase"> {{ product.nutriscore }} </span>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="padding-top:20px;">
-                    <div class="col">
-                        <a href="{% url 'favorites_register' product.id substitute.id %}"
-                           class="btn btn-info btn-block"><span class='fas fa-floppy-o'></span>
-                            Sauvegarder ce produit comme substitut de {{ product.product_name }}</a>
-                    </div>
-                </div>
-            {% else %}
-                <div class="row">
-                    <div class="col-lg-10 mx-auto sproductname">
-                        <h1>
-                            <strong class="">{{ product.product_name }}</strong>
-                        </h1>
-                    </div>
-                    <div class="col-12 sproductimg">
-                        <img class="img-fluid mx-auto m-2" src="{{ product.img_url }}">
-                    </div>
-                </div>
-            {% endif %}
+    {% if substitute %}
+        <header class="text-center text-white d-flex" style="background-image: url({{ substitute.img_url }})"
+                id="product-header">
+    {% else %}
+        <header class="text-center text-white d-flex" style="background-image: url({{ product.img_url }})"
+                id="product-header">
+    {% endif %}
+<div class="container my-auto">
+    <div class="row">
+        <div class="col-lg-10 mx-auto sproductname">
+            <h1><strong>Comparez ces produits :</strong></h1>
         </div>
-    </header>
-    <section class="texthead">
-        <div class="container">
-            <div class="row h-100">
-                <div class="col-lg-5 mx-auto">
-                    {% if substitute %}
+    </div>
+</div>
+</header>
+<div class="container-fluid text-center">
+    {% if substitute %}
+        <div class="row">
+            <div class="col-10 mx-auto">
+                <h2 class="m-2"><strong class="subName" title="{{ substitute.product_name }}">
+                    {{ substitute.product_name }}</strong>
+                </h2>
+                <div class="card">
+                    <div class="card-body">
+                        <img class="img-fluid mx-auto rounded m-2"
+                             src="{{ substitute.img_url }}"
+                             alt="Product Image">
                         <img class="img-fluid rounded m-2"
                              src="https://static.openfoodfacts.org/images/misc/nutriscore-{{ substitute.nutriscore }}.svg"
                              alt="NutriScore nutrition grade {{ substitute.nutriscore }}">
-                    {% else %}
-                        <img class="img-fluid rounded m-2"
-                             src="https://static.openfoodfacts.org/images/misc/nutriscore-{{ product.nutriscore }}.svg"
-                             alt="NutriScore nutrition grade {{ product.nutriscore }}">
-                    {% endif %}
-                </div>
-                <div class="col-lg-5 center-block mx-auto">
-                    <img class="img-fluid rounded m-2" src="{{ nutri_img }}" alt="Values for 100g">
+                        <img class="img-fluid rounded m-2" src="{{ substitute_nutri_img }}"
+                             alt="Values for 100g">
+                        <a href="{{ substitute.product_url }}">
+                            <h3 class=" m-2 text-center">Lien vers la page du produit sur OpenFoodFact</h3>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="row h-100">
-                <div class="col-lg-5 mx-auto mt-4">
-                    {% if substitute %}
-                        <a href="{{ substitute.product_url }}">
-                    {% else %}
-                        <a href="{{ product.product_url }}">
-                    {% endif %}
-                    <h3 class="text-center">Lien vers la page du produit sur OpenFoodFact</h3>
+        </div>
+        {% if substitute %}
+            <div class="row">
+                <div class="col-8 mx-auto">
+                    <a class="btn btn-product btn-info btn-block m-2"
+                       href="{% url 'favorites_register' product.id substitute.id %}">Enregistrer {{ substitute.product_name|truncatewords:6 }}
+                        comme substitut de {{ product.product_name }}</a>
+                </div>
+            </div>
+        {% endif %}
+        <hr class="divider my-4">
+    {% endif %}
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <h2 class="m-2"><strong class="subName m-2"
+                                    title="{{ product.product_name }}">{{ product.product_name }}</strong>
+            </h2>
+            <div class="card">
+                <div class="card-body">
+                    <img class="img-fluid mx-auto rounded m-2"
+                         src="{{ product.img_url }}"
+                         alt="Substitute image">
+                    <img class="img-fluid rounded m-2"
+                         src="https://static.openfoodfacts.org/images/misc/nutriscore-{{ product.nutriscore }}.svg"
+                         alt="NutriScore nutrition grade {{ product.nutriscore }}">
+                    <img class="img-fluid rounded m-2" src="{{ product_nutri_img }}"
+                         alt="Values for 100g">
+                    <a href="{{ product.product_url }}">
+                        <h3 class=" m-2 text-center">Lien vers la page du produit sur OpenFoodFact</h3>
                     </a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
 {% endblock content %}

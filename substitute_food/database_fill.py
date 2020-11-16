@@ -8,7 +8,9 @@ Django models used : Product, Category, Favorite
 from threading import Thread
 import requests
 
-from .models import Product, Category, FavoriteProduct
+from .models import Product, Category, FavoriteProduct, Stores
+from googletrans import Translator
+
 
 
 # Initialisation
@@ -25,7 +27,6 @@ def json_products_list(page_number):
     """
 
     url_fr = f"https://fr.openfoodfacts.org/country/france/{page_number}.json"
-
     response = requests.get(url_fr)
     data = response.json()
     return data
@@ -42,9 +43,9 @@ def product_correct(product):
         {bool} -- If true the product can be added to database
     """
 
-    if ((product['states_hierarchy'][1] == "en:complete") and
-            (product['stores'] is not None) and
-            (len(product['nutrition_grades']) < 2)):
+    if product['states_hierarchy'][1] == "en:complete" \
+            and product["image_front_url"] is not "" \
+            and len(product['nutrition_grades']) < 2:
         return True
     else:
         return False
@@ -66,37 +67,44 @@ class fill(Thread):
             for product in products['products']:
                 try:
                     if product_correct(product):
+                        p_name = product['product_name'].replace('/', '-')
                         try:
-                            p_name = product['product_name']
-                            if '/' in product['product_name']:
-                                p_name = p_name.replace('/', '-')
                             productobj = Product.objects.get(
                                 product_name=p_name)
-                            if productobj.productURL is None:
-                                productobj.productURL = (
+                            if productobj.product_url is None:
+                                productobj.product_url = (
                                     product["image_front_url"])
                         except Product.DoesNotExist:
-                            p_name = product['product_name']
-                            if '/' in product['product_name']:
-                                p_name = p_name.replace('/', '-')
                             productobj = Product.objects.create(
                                 product_name=p_name,
-                                shops=product['stores'],
-                                brands=product['brands'],
+                                brands=str(product['brands']).lower().title().replace(",", ", "),
                                 product_url=product['url'],
                                 nutriscore=product['nutrition_grades'],
                                 img_url=product['image_front_url'])
                             for category in product['categories'].split(','):
-                                # SQL request to register a Category
+                                # SQL request storing Categories
+                                translator = Translator()
+                                raw_name = translator.translate(str(category), dest='fr')
+                                cat_name = str(raw_name.text).lower().title()
                                 try:
                                     cat = Category.objects.get(
-                                        category_name=category).products.add(
-                                        productobj)
+                                        category_name=cat_name)
+                                    cat.products.add(productobj)
                                 except Category.DoesNotExist:
                                     cat = Category.objects.create(
-                                        category_name=category)
-                                    cat.products.add(
-                                        productobj)
+                                        category_name=cat_name)
+                                    cat.products.add(productobj)
+                            for store in product['stores'].split(','):
+                                # SQL request storing Stores
+                                store_name = str(store).lower().title()
+                                try:
+                                    cat = Stores.objects.get(
+                                        store_name=store_name)
+                                    cat.products.add(productobj)
+                                except Stores.DoesNotExist:
+                                    cat = Stores.objects.create(
+                                        store_name=store_name)
+                                    cat.products.add(productobj)
                 except KeyError:
                     continue
         finally:
@@ -112,6 +120,7 @@ def delete_db():
     Category.objects.all().delete()
     FavoriteProduct.objects.all().delete()
     Product.objects.all().delete()
+    Stores.objects.all().delete()
 
 
 class fill_cron(Thread):
