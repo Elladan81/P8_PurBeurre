@@ -26,7 +26,8 @@
 {% endblock menuTop %}
 
 {% block content %}
-    <header class="text-center text-white d-flex" style="background-image: url('{{ product.img_url }}')" id="product-header">
+    <header class="text-center text-white d-flex" style="background-image: url('{{ product.img_url }}')"
+            id="product-header">
         <div class="container my-auto">
             <div class="row">
                 <div class="col-lg-10 mx-auto sproductname">
@@ -82,8 +83,12 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Marque
                                     : {{ substitute.brands|title|default:"Non précisé"|truncatewords:4 }}</li>
-                                <li class="list-group-item">Magasin
-                                    : {{ substitute.shops|title|default:"Non précisé"|truncatewords:4 }}</li>
+                                <li class="list-group-item">Magasin :
+                                    {% for store in substitute.in_store.all.store_name %}
+                                        {{ store.store_name|default:"Non précisé" }}
+                                        {% if forloop.revcounter > 1 %}, {% else %}{% endif %}
+                                    {% endfor %}
+                                </li>
                             </ul>
                             <div class="card-footer bg-white">
                                 <a href="{% url 'favorites_register' product.id substitute.id %}"

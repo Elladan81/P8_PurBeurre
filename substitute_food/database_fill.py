@@ -12,7 +12,6 @@ from .models import Product, Category, FavoriteProduct, Stores
 from googletrans import Translator
 
 
-
 # Initialisation
 
 
@@ -44,7 +43,8 @@ def product_correct(product):
     """
 
     if product['states_hierarchy'][1] == "en:complete" \
-            and product["image_front_url"] is not "" \
+            and product["image_front_url"] != "" \
+            and product['brands'] != "" \
             and len(product['nutrition_grades']) < 2:
         return True
     else:
