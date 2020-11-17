@@ -62,10 +62,10 @@
                     {% endif %}
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Marque : {{ product.brands|title|default:"Non précisé" }}</li>
+                    <li class="list-group-item">Marque : {{ product.brands|default:"Non précisé"|truncatewords:4 }}</li>
                     <li class="list-group-item">Magasin :
                         {% for store in product.in_store.all %}
-                        {{ store|default:"Non précisé" }}
+                        {{ store.store_name|default_if_none:"Non précisé"}}
                         {% if forloop.revcounter > 1 %}, {% else %}{% endif %}
                     {% endfor %}</li>
                 </ul>

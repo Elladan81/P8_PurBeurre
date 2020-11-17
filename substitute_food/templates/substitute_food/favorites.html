@@ -68,8 +68,8 @@
                     <li class="list-group-item">Marque
                         : {{ favorite.substitute.brands|title|default:"Non précisé" }}</li>
                     <li class="list-group-item">Magasin :
-                        {% for store in product.in_store.all %}
-                            {{ store|default:"Non précisé" }}
+                        {% for store in favorite.substitute.in_store.all %}
+                            {{ store.store_name|default:"Non précisé" }}
                             {% if forloop.revcounter > 1 %}, {% else %}{% endif %}
                         {% endfor %}</li>
                 </ul>

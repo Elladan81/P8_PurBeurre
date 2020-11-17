@@ -40,7 +40,7 @@ class Stores(models.Model):
     products = models.ManyToManyField('Product', related_name='in_store')
 
     def __str__(self):
-        return self.store_name
+        return f'{self.store_name}'
 
     class Meta:
         verbose_name = "Magasin"
