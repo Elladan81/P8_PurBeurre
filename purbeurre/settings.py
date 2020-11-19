@@ -34,7 +34,7 @@ SECRET_KEY = env('PURBEURRE_SECRET_KEY')
 PURBEURRE_POSTGRE_PASSWORD = env('PURBEURRE_POSTGRE_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'oc8purbeurre.herokuapp.com', '15.237.153.33', '*', ]
 
