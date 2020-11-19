@@ -126,6 +126,7 @@ def remove_fav(request, product_id, substitute_id):
         messages.success(request, "Favori supprimé !")
         return redirect('favorites')
     except FavoriteProduct.DoesNotExist:
+        logger.info('Favorite Remove Fail', exc_info=True, extra={'request': request})
         messages.error(request, "Vous ne pouvez pas supprimer ce produit.")
     return redirect('favorites')
 

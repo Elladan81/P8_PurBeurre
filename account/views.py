@@ -12,7 +12,6 @@ from django.contrib import messages
 
 logger = logging.getLogger(__name__)
 
-
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -78,6 +77,5 @@ def edit(request):
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user)
-
     return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})
 
