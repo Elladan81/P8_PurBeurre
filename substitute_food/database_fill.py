@@ -92,9 +92,20 @@ class fill(Thread):
                                     cat = Category.objects.create(
                                         category_name=cat_name)
                                     cat.products.add(productobj)
-                            for store in str(product['stores']).split(','):
-                                # SQL request storing Stores
-                                store_name = store.lower().title()
+                            if product['stores'] is not None:
+                                for store in str(product['stores']).split(','):
+                                    # SQL request storing Stores
+                                    store_name = store.lower().title()
+                                    try:
+                                        cat = Stores.objects.get(
+                                            store_name=store_name)
+                                        cat.products.add(productobj)
+                                    except Stores.DoesNotExist:
+                                        cat = Stores.objects.create(
+                                            store_name=store_name)
+                                        cat.products.add(productobj)
+                            else:
+                                store_name = "Non précisé"
                                 try:
                                     cat = Stores.objects.get(
                                         store_name=store_name)
@@ -103,6 +114,7 @@ class fill(Thread):
                                     cat = Stores.objects.create(
                                         store_name=store_name)
                                     cat.products.add(productobj)
+
                 except KeyError:
                     continue
         finally:

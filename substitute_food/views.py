@@ -1,7 +1,7 @@
 from random import choice
 import requests
 from django.contrib import messages
-from django.contrib.admin.utils import unquote
+import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector
 from django.http import JsonResponse
@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from .database_fill import fill, delete_db
 from .models import Product, FavoriteProduct
 
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 def search(request):
@@ -21,6 +22,7 @@ def search(request):
             random_img = Product.objects.get(id=choice([p.id for p in products])).img_url
         else:
             random_img = None
+        logger.info('New Search', exc_info=True, extra={'request': request})
         return render(request, 'substitute_food/search.html', {"query": query,
                                                                "products": products,
                                                                "random_img": random_img})
