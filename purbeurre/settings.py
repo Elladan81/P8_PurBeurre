@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'purbeurre_website',
     'substitute_food',
     # third party apps
-    'raven',
+    'raven.contrib.django.raven_compat',
     'bootstrap4',
     'social_django',
     'crispy_forms',
