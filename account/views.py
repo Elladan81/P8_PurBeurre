@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-
+import logging
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 from django.contrib import messages
+
+logger = logging.getLogger(__name__)
 
 
 def user_login(request):
@@ -26,6 +28,7 @@ def user_login(request):
                 else:
                     return HttpResponse('Compte indisponible')
             else:
+                logger.info('Log Fail', exc_info=True, extra={'request': request})
                 return HttpResponse('Ce compte est invalide')
     else:
         form = LoginForm()
