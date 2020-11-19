@@ -1,5 +1,7 @@
 /venv/
 /.idea/
 /This_commit_update_directory.patch/
-/.env/
-/purbeurre.pem/
+/.env
+/purbeurre.pem
+/purbeurre.pem
+:
