@@ -43,8 +43,9 @@ def product_correct(product):
     """
 
     if product['states_hierarchy'][1] == "en:complete" \
-            and product["image_front_url"] != "" \
-            and product['brands'] != "" \
+            and product["image_front_url"] is not None \
+            and product['brands'] is not None\
+            and product['categories'] is not None\
             and len(product['nutrition_grades']) < 2:
         return True
     else:
@@ -82,10 +83,7 @@ class fill(Thread):
                                 nutriscore=product['nutrition_grades'],
                                 img_url=product['image_front_url'])
                             for category in product['categories'].split(','):
-                                # SQL request storing Categories
-                                translator = Translator()
-                                raw_name = translator.translate(str(category), dest='fr')
-                                cat_name = str(raw_name.text).lower().title()
+                                cat_name = str(category).lower().title()
                                 try:
                                     cat = Category.objects.get(
                                         category_name=cat_name)
@@ -94,9 +92,9 @@ class fill(Thread):
                                     cat = Category.objects.create(
                                         category_name=cat_name)
                                     cat.products.add(productobj)
-                            for store in product['stores'].split(','):
+                            for store in str(product['stores']).split(','):
                                 # SQL request storing Stores
-                                store_name = str(store).lower().title()
+                                store_name = store.lower().title()
                                 try:
                                     cat = Stores.objects.get(
                                         store_name=store_name)

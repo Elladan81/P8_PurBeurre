@@ -47,7 +47,7 @@
                 {% if forloop.counter0|divisibleby:3 %}
                     <div class="card-deck">
                     <div class="row col-12"> {% endif %}
-            <div class="card col-4 m-4 text-center">
+            <div class="card col-md-4 m-4 text-center">
                 <div class="nutriscore nutricolor-{{ product.nutriscore }} text-center text-uppercase">
                     {{ product.nutriscore }}
                 </div>
@@ -65,7 +65,7 @@
                     <li class="list-group-item">Marque : {{ product.brands|default:"Non précisé"|truncatewords:4 }}</li>
                     <li class="list-group-item">Magasin :
                         {% for store in product.in_store.all %}
-                        {{ store.store_name|default_if_none:"Non précisé"}}
+                        {{ store.store_name|default:"Non précisé"}}
                         {% if forloop.revcounter > 1 %}, {% else %}{% endif %}
                     {% endfor %}</li>
                 </ul>
