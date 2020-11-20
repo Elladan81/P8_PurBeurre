@@ -16,15 +16,13 @@ from django.contrib import staticfiles
 import raven
 import environ
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+env = environ.Env()
+
 # reading .env file
 environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -32,6 +30,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('PURBEURRE_SECRET_KEY')
 PURBEURRE_POSTGRE_PASSWORD = env('PURBEURRE_POSTGRE_PASSWORD')
+PURBEURRE_POSTGRE_HOST = env('PURBEURRE_POSTGRE_HOST')
+PURBEURRE_POSTGRE_DB = env('PURBEURRE_POSTGRE_DB')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -99,10 +99,10 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'purbeurre_db',
+        'NAME': PURBEURRE_POSTGRE_DB,
         'USER': 'postgres',
         'PASSWORD': 'purbeurrepassword6432',
-        'HOST': 'purbeurre.cyw4albctm36.eu-west-3.rds.amazonaws.com',
+        'HOST': PURBEURRE_POSTGRE_HOST,
         'PORT': '5432',
     }
 }
@@ -168,7 +168,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Sentry
 
 RAVEN_CONFIG = {
-    'dsn': 'https://be0a2070206e46edbdd066b122f0fa1f@o479321.ingest.sentry.io/5524050',
+    'dsn': env('RAVEN_DSN'),
     # If you are using git, you can also automatically configure the
     # release based on the git info.
     'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),

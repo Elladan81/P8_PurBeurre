@@ -43,9 +43,9 @@ def product_correct(product):
     """
 
     if product['states_hierarchy'][1] == "en:complete" \
-            and product["image_front_url"] is not None \
-            and product['brands'] is not None\
-            and product['categories'] is not None\
+            and product["image_front_url"] != "" \
+            and product['product_name'] != '' \
+            and product['categories'] != "" \
             and len(product['nutrition_grades']) < 2:
         return True
     else:
@@ -82,8 +82,12 @@ class fill(Thread):
                                 product_url=product['url'],
                                 nutriscore=product['nutrition_grades'],
                                 img_url=product['image_front_url'])
-                            for category in product['categories'].split(','):
-                                cat_name = str(category).lower().title()
+                            if product['categories'] != "":
+                                cat_list = [str(category).lower().title() for category in product[
+                                    'categories'].split(',')]
+                            else:
+                                cat_list = ['Divers']
+                            for cat_name in cat_list:
                                 try:
                                     cat = Category.objects.get(
                                         category_name=cat_name)
@@ -92,20 +96,11 @@ class fill(Thread):
                                     cat = Category.objects.create(
                                         category_name=cat_name)
                                     cat.products.add(productobj)
-                            if product['stores'] is not None:
-                                for store in str(product['stores']).split(','):
-                                    # SQL request storing Stores
-                                    store_name = store.lower().title()
-                                    try:
-                                        cat = Stores.objects.get(
-                                            store_name=store_name)
-                                        cat.products.add(productobj)
-                                    except Stores.DoesNotExist:
-                                        cat = Stores.objects.create(
-                                            store_name=store_name)
-                                        cat.products.add(productobj)
+                            if product['stores'] != "":
+                                store_list = [str(store).lower().title() for store in str(product['stores']).split(',')]
                             else:
-                                store_name = "Non précisé"
+                                store_list = ['Non précisé']
+                            for store_name in store_list:
                                 try:
                                     cat = Stores.objects.get(
                                         store_name=store_name)
@@ -114,7 +109,6 @@ class fill(Thread):
                                     cat = Stores.objects.create(
                                         store_name=store_name)
                                     cat.products.add(productobj)
-
                 except KeyError:
                     continue
         finally:
