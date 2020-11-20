@@ -22,7 +22,6 @@ def search(request):
             random_img = Product.objects.get(id=choice([p.id for p in products])).img_url
         else:
             random_img = None
-        logger.info('New Search', exc_info=True, extra={'request': request})
         return render(request, 'substitute_food/search.html', {"query": query,
                                                                "products": products,
                                                                "random_img": random_img})
