@@ -1,0 +1,15 @@
+{% autoescape off %}
+
+Bonjour {{ user.username|title }},
+
+Cliquez sur le lien suivant afin de finaliser votre enregistrement :
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Si vous n'avez pas fait cette demande, ignorez cet email.
+
+    Merci et belle journée,
+
+    Remy et Colette de PurBeurre
+
+{% endautoescape %}

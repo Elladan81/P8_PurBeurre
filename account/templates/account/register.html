@@ -2,8 +2,8 @@
 {% load crispy_forms_filters %}
 {% load static %}
 
-
 {% block title %}Créer un compte{% endblock %}
+
 {% block content %}
     <header class="masthead text-center text-white d-flex">
         <div class="container my-auto">
@@ -16,8 +16,7 @@
                         <form class="form-group text-white" action="." method="post">
                             {{ user_form|crispy }}
                             {% csrf_token %}
-                            <p><input class="input-group-addon btn btn-primary col-lg-6 m-2 mx-auto"
-                                      type="submit" value="Valider mon compte"></p>
+                            <input class="btn btn-primary col-lg-8 m-2 mx-auto" type="submit" value="Envoyer">
                         </form>
                     </div>
                 </div>

@@ -22,7 +22,6 @@ def search(request):
             random_img = Product.objects.get(id=choice([p.id for p in products])).img_url
         else:
             random_img = None
-        logger.info('New Search', exc_info=True, extra={'request': request})
         return render(request, 'substitute_food/search.html', {"query": query,
                                                                "products": products,
                                                                "random_img": random_img})
@@ -33,59 +32,71 @@ def search(request):
 
 def find_substitute(request, query, product_id):
     """Display the page of a product"""
-    product = Product.objects.get(id=product_id)
-    product_by_category = {}
-    categories = product.in_cat.all()
-    product_in_dict = []
-    for cat in categories:
-        # query db product : if query in product name, bands,
-        # shops in same category, exclude products with nutriscore lower
-        substitutes = Product.objects.annotate(search=SearchVector('product_name', 'brands', 'in_store')).filter(
-            search=query).filter(in_cat__category_name=cat).order_by('nutriscore').exclude(
-            product_name=product).exclude(
-            nutriscore__gt=product.nutriscore)[:9]
-        # if not enough substitutes with the same query, look for other product in same cat
-        if substitutes.count() < 3:
-            substitutes = Product.objects.filter(in_cat__category_name=cat).order_by('nutriscore').exclude(
+    try:
+        product = Product.objects.get(id=product_id)
+        product_by_category = {}
+        categories = product.in_cat.all()
+        product_in_dict = []
+        for cat in categories:
+            # query db product : if query in product name, bands,
+            # shops in same category, exclude products with nutriscore lower
+            substitutes = Product.objects.annotate(search=SearchVector('product_name', 'brands', 'in_store')).filter(
+                search=query).filter(in_cat__category_name=cat).order_by('nutriscore').exclude(
                 product_name=product).exclude(
                 nutriscore__gt=product.nutriscore)[:9]
-        filtered_substitutes = [sub for sub in substitutes if sub.id not in product_in_dict]
-        if len(filtered_substitutes) > 0:
-            product_by_category[cat.category_name] = filtered_substitutes
-            for f in filtered_substitutes:
-                product_in_dict.append(f.id)
-    return render(request, 'substitute_food/find_substitute.html', {"product": product,
-                                                                    "categories": categories,
-                                                                    "product_by_category": product_by_category})
+            # if not enough substitutes with the same query, look for other product in same cat
+            if substitutes.count() < 3:
+                substitutes = Product.objects.filter(in_cat__category_name=cat).order_by('nutriscore').exclude(
+                    product_name=product).exclude(
+                    nutriscore__gt=product.nutriscore)[:9]
+            filtered_substitutes = [sub for sub in substitutes if sub.id not in product_in_dict]
+            if len(filtered_substitutes) > 0:
+                product_by_category[cat.category_name] = filtered_substitutes
+                for f in filtered_substitutes:
+                    product_in_dict.append(f.id)
+        return render(request, 'substitute_food/find_substitute.html', {"product": product,
+                                                                        "categories": categories,
+                                                                        "product_by_category": product_by_category})
+    except Product.DoesNotExist:
+        messages.error(request, "Ce produit n'est pas dans la base de donnée")
+        return redirect('purbeurre_website:index')
 
 
 def product_info(request, product_id):
     """Display the page of a product"""
-    product = Product.objects.get(id=product_id)
-    resp = requests.get("https://fr.openfoodfacts.org/api/v0/produit/" + product.product_url.split("/")[4] + ".json")
-    data = resp.json()
-    product_nutri_img = data['product']["image_nutrition_url"]
-    return render(request, 'substitute_food/product.html', {"product": product,
-                                                            "resp": resp,
-                                                            "data": data,
-                                                            "product_nutri_img": product_nutri_img})
+    try:
+        product = Product.objects.get(id=product_id)
+        resp = requests.get("https://fr.openfoodfacts.org/api/v0/produit/" + product.product_url.split("/")[4] + ".json")
+        data = resp.json()
+        product_nutri_img = data['product']["image_nutrition_url"]
+        return render(request, 'substitute_food/product.html', {"product": product,
+                                                                "resp": resp,
+                                                                "data": data,
+                                                                "product_nutri_img": product_nutri_img})
+    except Product.DoesNotExist:
+        messages.warning(request, "Ce produit n'exsite pas")
+        return redirect('purbeurre_website:index')
 
 
 def product_substitute_info(request, product_id, substitute_id):
     """Display the page of a product from a substitute search"""
-    product = Product.objects.get(id=product_id)
-    substitute = Product.objects.get(id=substitute_id)
-    data_product = requests.get(
-        "https://fr.openfoodfacts.org/api/v0/produit/" + product.product_url.split("/")[4] + ".json").json()
-    data_substitute = requests.get(
-        "https://fr.openfoodfacts.org/api/v0/produit/" + substitute.product_url.split("/")[4] + ".json").json()
-    product_nutri_img = data_product['product']["image_nutrition_url"]
-    substitute_nutri_img = data_substitute['product']["image_nutrition_url"]
-    return render(request, 'substitute_food/product.html', {"product": product,
-                                                            "substitute": substitute,
-                                                            "product_nutri_img": product_nutri_img,
-                                                            "substitute_nutri_img": substitute_nutri_img
-                                                            })
+    try:
+        product = Product.objects.get(id=product_id)
+        substitute = Product.objects.get(id=substitute_id)
+        data_product = requests.get(
+            "https://fr.openfoodfacts.org/api/v0/produit/" + product.product_url.split("/")[4] + ".json").json()
+        data_substitute = requests.get(
+            "https://fr.openfoodfacts.org/api/v0/produit/" + substitute.product_url.split("/")[4] + ".json").json()
+        product_nutri_img = data_product['product']["image_nutrition_url"]
+        substitute_nutri_img = data_substitute['product']["image_nutrition_url"]
+        return render(request, 'substitute_food/product.html', {"product": product,
+                                                                "substitute": substitute,
+                                                                "product_nutri_img": product_nutri_img,
+                                                                "substitute_nutri_img": substitute_nutri_img
+                                                                })
+    except Product.DoesNotExist:
+        messages.warning(request, "Ce Produit n'existe pas.")
+        return redirect('purbeurre_website:index')
 
 
 @login_required
@@ -105,29 +116,33 @@ def favorites(request):
 @login_required
 def register_fav(request, product_id, substitute_id):
     """View used to register a favorite in user profile"""
-    product = Product.objects.get(id=product_id)
-    substitute = Product.objects.get(id=substitute_id)
-    fav_reg = FavoriteProduct.objects.get_or_create(product=product, substitute=substitute, user_rel=request.user)
-    if fav_reg[1] == True:
-        messages.success(request, "Favori bien enregistré !")
-    else:
-        messages.warning(request, 'Ce favori existe déjà')
+    try:
+        product = Product.objects.get(id=product_id)
+        substitute = Product.objects.get(id=substitute_id)
+        fav_reg = FavoriteProduct.objects.get_or_create(product=product, substitute=substitute, user_rel=request.user)
+        if fav_reg[1] == True:
+            messages.success(request, "Favori bien enregistré !")
+        else:
+            messages.warning(request, 'Ce favori existe déjà')
+    except Product.DoesNotExist:
+        messages.error(request, "Enregistrement impossible")
     return redirect('favorites')
-
 
 @login_required
 def remove_fav(request, product_id, substitute_id):
     """View used to remove a favorite in user_favorites"""
-    product = Product.objects.get(id=product_id)
-    substitute = Product.objects.get(id=substitute_id)
     try:
-        fav_to_delete = FavoriteProduct.objects.get(product=product, substitute=substitute, user_rel=request.user)
-        fav_to_delete.delete()
-        messages.success(request, "Favori supprimé !")
-        return redirect('favorites')
-    except FavoriteProduct.DoesNotExist:
+        product = Product.objects.get(id=product_id)
+        substitute = Product.objects.get(id=substitute_id)
+        try:
+            fav_to_delete = FavoriteProduct.objects.get(product=product, substitute=substitute, user_rel=request.user)
+            fav_to_delete.delete()
+            messages.success(request, "Favori supprimé !")
+        except FavoriteProduct.DoesNotExist:
+            messages.error(request, "Vous ne pouvez pas supprimer ces produits.")
+    except Product.DoesNotExist:
         logger.info('Favorite Remove Fail', exc_info=True, extra={'request': request})
-        messages.error(request, "Vous ne pouvez pas supprimer ce produit.")
+        messages.error(request, "Vous ne pouvez pas supprimer ces produits.")
     return redirect('favorites')
 
 

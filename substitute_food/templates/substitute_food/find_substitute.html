@@ -84,7 +84,7 @@
                                 <li class="list-group-item">Marque
                                     : {{ substitute.brands|title|default:"Non précisé"|truncatewords:4 }}</li>
                                 <li class="list-group-item">Magasin :
-                                    {% for store in substitute.in_store.all.store_name %}
+                                    {% for store in substitute.in_store.all %}
                                         {{ store.store_name|default:"Non précisé" }}
                                         {% if forloop.revcounter > 1 %}, {% else %}{% endif %}
                                     {% endfor %}
