@@ -13,18 +13,11 @@
             <div class="col-lg-10 align-self-end">
                 <h1 class="text-uppercase text-white font-weight-bold">Connectez-vous</h1>
                     <hr class="divider my-4">
-                    {%if form.errors %}
-                        <p>
-                            Votre nom d'utilisateur/mail et votre mot de passe ne correspondent pas.
-                        Veuillez recommencer.
-                        </p>
-                    {% else %}
                     <p class="text-white-75 font-weight-light mb-5">Utilisez ce formulaire pour vous connecter.</p>
                     <p class="text-white-75 font-weight-light mb-5">Si vous n'avez pas de compte :
                         <a href="{% url 'register' %}">enregistrez-vous ici !</a>
                     </p>
             </div>
-                    {% endif %}
             <div class="login form text-white-75">
                 <form class="form-group" action="{% url 'login' %}" method="post">
                     {{ form.as_p }}

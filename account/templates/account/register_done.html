@@ -6,8 +6,10 @@
         <div class="container my-auto">
             <div class="row">
                 <div class="col-lg-12 align-self-end">
-                    <h1>Bienvenue {{ new_user.first_name }} !</h1>
-                    <p>Votre compte a été créé. Maintenant vous pouvez vous <a href="{% url 'login' %}">connecter</a>.
+                    <h1>Bienvenue {{ new_user.first_name|title }} !</h1>
+                    <p>Votre demande a été enregistrée, merci !</p>
+                    <p>Un e-mail de confirmation vous a été envoyé.</p>
+                    <p>Vérifiez également dans votre spam.</p>
                     </p>
                 </div>
             </div>

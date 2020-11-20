@@ -151,7 +151,14 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 # email settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django_ses.SESBackend'
+DEFAULT_FROM_EMAIL = 'purbeurre.confirmation@gmail.com'
+AWS_SES_ACCESS_KEY_ID = 'AKIATBGEKEKHJ5KRHJHK'
+AWS_SES_SECRET_ACCESS_KEY = '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'
+AWS_SES_REGION_NAME = 'eu-west-3'
+AWS_SES_REGION_ENDPOINT = 'email.eu-west-3.amazonaws.com'
+
+# django.core.mail.backends.console.EmailBackend
 
 # media files upload
 MEDIA_URL = '/media/'
