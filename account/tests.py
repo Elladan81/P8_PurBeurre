@@ -18,66 +18,61 @@ class TestAuth(TestCase):
         """The set up for tests
         """
         self.client = Client()
+        # lambda user
+        self.user = User.objects.create_user(username="test", password="test", email="test@test.com")
+        # user for register test with value form and log in credential
         self.user_register = {"username": "newtest",
                               "first_name": "newtest",
                               "email": "newtest@test.com",
                               "password": "newtest",
                               "passowrd2": "newtest",
                               }
-        User.objects.create_user(username="test",
-                                 password="test",
-                                 email="test@test.com")
+        self.user_register_credential = {"username": "newtest",
+                                         "password": "newtest",
+                                         "connect": "true"}
+        # inactive user
+        self.inactive_user = User.objects.create_user(username='new_name', password='pass',
+                                                      email='test@test.com',is_active=False)
+        self.inactive_user_credential = {"username": "new_name", "password": "pass"}
 
     def test_register(self):
         """
         Test to create an account
         """
-        response = self.client.post(reverse('register'),
-                                    data=self.user_register,
-                                    follow=True)
+        self.client.post(reverse('register'), data=self.user_register, follow=True)
         assert (lambda: self.client.session['_auth_user_id'])
 
     def test_register_form_is_valid(self):
-        response = self.client.post(reverse('register'),
-                                    data=self.user_register,
-                                    follow=True)
+        # form with valid values
+        response = self.client.post(reverse('register'), data=self.user_register, follow=True)
+        # assert if register form is valid
         self.assertTrue(response.context['form'].is_valid)
 
     def test_register_user_not_active(self):
         """
         Test to login with account is_active == False
         """
-        self.client.post(reverse('register'),
-                         data=self.user_register,
-                         follow=True)
-        response = self.client.post(reverse('login'),
-                         {"username": "test",
-                          "password": "test",
-                          "connect": "true"},
-                         follow=True)
+        # complete form with incative user
+        self.client.post(reverse('register'), data=self.user_register, follow=True)
+        # try to log user
+        response = self.client.post(reverse('login'), self.user_register_credential, follow=True)
+        # if assert False, user is not log in.
         self.assertFalse(response.context['user'].is_active)
 
     def test_activate(self):
         """
-        Test to create an account
+        Test to activate an account
         """
-        # create inactive user
-        new_user = User.objects.create_user(username='new_name',
-                                            password='pass',
-                                            email='test@test.com',
-                                            is_active=False)
-        uidb64 = urlsafe_base64_encode(force_bytes(new_user.pk))
-        token = default_token_generator.make_token(new_user)
-        self.client.get(reverse('activate', args=(uidb64, token)),
-                        follow=True)
-        response = self.client.post(reverse('login'),
-                                    {"username": "name",
-                                     "password": "pass",
-                                     "connect": "true"},
-                                    follow=True)
-        # test if activate user is new user
-        self.assertEqual(response.context['user'], new_user)
-        # test if new_user is active
+        # encore url for inactive user
+        uidb64 = urlsafe_base64_encode(force_bytes(self.inactive_user.pk))
+        token = default_token_generator.make_token(self.inactive_user)
+        # get view activate for inactive user
+        self.client.get(reverse('activate', args=(uidb64, token)), follow=True)
+        # log in inactive user
+        response = self.client.post(reverse('login'), self.inactive_user_credential, follow=True)
+        # test if activate user == new user. If equal, assert incative user is active and can now log in
+        self.assertEqual(response.context['user'], self.inactive_user)
+        # test if inactive user is now active
         self.assertTrue(response.context['user'].is_active)
 
     def test_logout(self):
@@ -94,12 +89,12 @@ class TestAuth(TestCase):
         """
         Test to login user
         """
-        self.client.post(reverse('login'),
+        response = self.client.post(reverse('login'),
                          {"username": "test",
                           "password": "test",
                           "connect": "true"},
                          follow=True)
-        assert (lambda: self.client.session['_auth_user_id'])
+        self.assertEqual(response.context['user'], self.user)
 
     def test_login_error(self):
         """
