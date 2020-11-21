@@ -51,8 +51,8 @@ class TestAuth(TestCase):
                          data=self.user_register,
                          follow=True)
         response = self.client.post(reverse('login'),
-                         {"username": "newtest",
-                          "password": "newtest",
+                         {"username": "test",
+                          "password": "test",
                           "connect": "true"},
                          follow=True)
         self.assertFalse(response.context['user'].is_active)
@@ -71,7 +71,7 @@ class TestAuth(TestCase):
         self.client.get(reverse('activate', args=(uidb64, token)),
                         follow=True)
         response = self.client.post(reverse('login'),
-                                    {"username": "new_name",
+                                    {"username": "name",
                                      "password": "pass",
                                      "connect": "true"},
                                     follow=True)
