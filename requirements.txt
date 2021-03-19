@@ -53,7 +53,7 @@ social-auth-app-django==4.0.0
 social-auth-core==3.3.3
 soupsieve==2.0.1
 sqlparse==0.4.1
-urllib3==1.26.2
+urllib3==1.26.3
 Werkzeug==1.0.1
 whitenoise==5.2.0
 zipp==3.4.0
